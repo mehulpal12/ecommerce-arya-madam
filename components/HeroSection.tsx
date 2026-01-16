@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative h-screen">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"

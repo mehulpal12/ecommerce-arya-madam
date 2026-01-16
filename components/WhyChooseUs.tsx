@@ -29,7 +29,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-gradient-to-b from-[#1f4f66] to-[#163b4d] py-20">
+    <section className="bg-gradient-to-b from-[#1f4f66] to-[#163b4d] min-h-screen py-20">
       <div className="mx-auto max-w-7xl px-6">
         {/* Heading */}
         <div className="text-center mb-14">
