@@ -7,7 +7,7 @@ import NewsletterSubscription from "@/components/NewsletterSubscription";
 import HowItWorks from "@/components/HowItWorks";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import BestSellers from "@/components/BestSellers";
-import AboutHero from "@/components/about";
+
 
 export default function HomePage() {
   return (
@@ -16,7 +16,6 @@ export default function HomePage() {
 
       <Navbar />
       <HeroSection />
-      <AboutHero />
       <Collections />
       <BestSellers />
       <WhyChooseUs />

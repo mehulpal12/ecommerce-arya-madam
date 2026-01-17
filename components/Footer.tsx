@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect } from "react";
+import Link from "next/link";
 import {
   Facebook,
   Instagram,
@@ -18,17 +19,13 @@ const Footer: FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle(
-            "visible",
-            entry.isIntersecting
-          );
+          entry.target.classList.toggle("visible", entry.isIntersecting);
         });
       },
       { threshold: 0.25 }
     );
 
     elements.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, []);
 
@@ -52,7 +49,7 @@ const Footer: FC = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
 
-          {/* Brand */}
+          {/* BRAND */}
           <div>
             <h2 className="text-3xl font-bold tracking-widest text-[#fdfaf6] mb-6">
               ARYA MADAM
@@ -63,68 +60,47 @@ const Footer: FC = () => {
             </p>
 
             <div className="flex gap-4">
-              {[Facebook, Instagram, Linkedin].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="p-3 rounded-lg
-                             border border-[#e6cfa7]/40
-                             bg-[#3b2a1a]/80
-                             hover:bg-[#4a3323]
-                             transition-colors"
-                >
-                  <Icon size={20} className="text-[#e6cfa7]" />
-                </a>
-              ))}
+              <a href="https://facebook.com" target="_blank">
+                <Facebook className="text-[#e6cfa7]" />
+              </a>
+              <a href="https://instagram.com" target="_blank">
+                <Instagram className="text-[#e6cfa7]" />
+              </a>
+              <a href="https://linkedin.com" target="_blank">
+                <Linkedin className="text-[#e6cfa7]" />
+              </a>
             </div>
           </div>
 
-          {/* Company */}
+          {/* COMPANY */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6] tracking-wide">
+            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6]">
               Company
             </h3>
             <ul className="space-y-4">
-              {["About Us", "Careers", "Press", "Contact"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="hover:text-[#fdfaf6] transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><Link href="/about#about">About Us</Link></li>
+              <li><Link href="/careers">Careers</Link></li>
+              <li><Link href="/press">Press</Link></li>
+              <li><Link href="/contact#contact">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Support */}
+          {/* SUPPORT */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6] tracking-wide">
+            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6]">
               Support
             </h3>
             <ul className="space-y-4">
-              {[
-                "FAQs",
-                "Shipping Policy",
-                "Returns & Exchanges",
-                "Terms of Service",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="hover:text-[#fdfaf6] transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li><Link href="/faqs">FAQs</Link></li>
+              <li><Link href="/shippingPolicy">Shipping Policy</Link></li>
+              <li><Link href="/returnsAndExchanges">Returns & Exchanges</Link></li>
+              <li><Link href="/termsOfService">Terms of Service</Link></li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* CONTACT */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6] tracking-wide">
+            <h3 className="text-lg font-semibold mb-6 text-[#fdfaf6]">
               Contact Info
             </h3>
             <ul className="space-y-5">
@@ -151,19 +127,9 @@ const Footer: FC = () => {
         data-animate="card"
         className="relative border-t border-[#e6cfa7]/30"
       >
-        <div
-          className="max-w-7xl mx-auto px-6 py-6
-                     flex flex-col md:flex-row
-                     justify-between items-center gap-4 text-sm"
-        >
-          <p className="text-[#eadbc4]/80">
-            © 2025 Arya Madam Craft Supplies. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-[#fdfaf6]">
-              Privacy Policy
-            </a>
-          </div>
+        <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between text-sm">
+          <p>© 2025 Arya Madam Craft Supplies</p>
+          <Link href="/privacy-policy">Privacy Policy</Link>
         </div>
       </div>
 
