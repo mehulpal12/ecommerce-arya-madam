@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
   {
@@ -31,19 +32,11 @@ export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const searchParams = useSearchParams();
 
-  // 🔥 AUTO SCROLL FIX
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const section = document.getElementById('faqs');
-      if (section) {
-        section.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
+    const t = setTimeout(() => {
+      document.getElementById('faqs')?.scrollIntoView({ behavior: 'smooth' });
     }, 150);
-
-    return () => clearTimeout(timer);
+    return () => clearTimeout(t);
   }, [searchParams]);
 
   return (
@@ -62,23 +55,30 @@ export default function FAQPage() {
       <div className="absolute inset-0 bg-[#2b1d12]/90" />
 
       {/* CONTENT */}
-      <div className="relative z-10 mx-auto max-w-4xl text-[#eadbc4]">
-
+      <motion.div
+        initial={{
+          clipPath: 'polygon(0 0, 0 0, 0 100%, 0 100%)',
+          opacity: 0,
+        }}
+        whileInView={{
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          opacity: 1,
+        }}
+        exit={{
+          clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)',
+          opacity: 0,
+        }}
+        viewport={{ once: false }}
+        transition={{ duration: 1.1, ease: [0.77, 0, 0.18, 1] }}
+        className="relative z-10 mx-auto max-w-4xl text-[#eadbc4]"
+      >
         {/* HERO */}
         <div className="mb-24 text-center">
-          <span className="inline-block mb-6 px-6 py-2 border border-[#e6cfa7]/60 rounded-full text-[#e6cfa7] tracking-widest uppercase text-xs">
-            FAQs
-          </span>
-
           <h1 className="text-4xl md:text-5xl font-bold text-[#fdfaf6]">
             Frequently Asked Questions
           </h1>
 
-          <div className="my-6 text-[#e6cfa7] tracking-widest">
-            ───── ✦ ─────
-          </div>
-
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed">
+          <p className="mt-6 mx-auto max-w-2xl text-lg">
             Answers to common questions about working with us
           </p>
         </div>
@@ -86,8 +86,22 @@ export default function FAQPage() {
         {/* FAQ LIST */}
         <div className="space-y-6">
           {faqs.map((item, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{
+                clipPath: 'inset(0 100% 0 0)',
+                opacity: 0,
+              }}
+              whileInView={{
+                clipPath: 'inset(0 0% 0 0)',
+                opacity: 1,
+              }}
+              viewport={{ once: false }}
+              transition={{
+                duration: 0.9,
+                ease: [0.77, 0, 0.18, 1],
+                delay: index * 0.12,
+              }}
               className="rounded-2xl border border-[#e6cfa7]/30 bg-[#2b1d12]/80 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
             >
               <button
@@ -99,29 +113,53 @@ export default function FAQPage() {
                 <h3 className="text-lg font-semibold text-[#fdfaf6]">
                   {item.q}
                 </h3>
-                <span className="text-2xl text-[#e6cfa7]">
-                  {openIndex === index ? '−' : '+'}
+                <span className="text-xl text-[#e6cfa7]">
+                  {openIndex === index ? '—' : '+'}
                 </span>
               </button>
 
-              {openIndex === index && (
-                <div className="px-6 pb-6 text-sm leading-relaxed text-[#eadbc4]">
-                  {item.a}
-                </div>
-              )}
-            </div>
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{
+                      height: 0,
+                      opacity: 0,
+                      letterSpacing: '0.2em',
+                    }}
+                    animate={{
+                      height: 'auto',
+                      opacity: 1,
+                      letterSpacing: '0em',
+                    }}
+                    exit={{
+                      height: 0,
+                      opacity: 0,
+                      letterSpacing: '0.2em',
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      ease: 'easeInOut',
+                    }}
+                    className="overflow-hidden px-6 pb-6 text-sm leading-relaxed text-[#eadbc4]"
+                  >
+                    {item.a}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-32 text-center">
+        <motion.div
+          initial={{ clipPath: 'inset(0 0 100% 0)', opacity: 0 }}
+          whileInView={{ clipPath: 'inset(0 0 0% 0)', opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-32 text-center"
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-[#fdfaf6] mb-6">
             Still Have Questions?
           </h2>
-
-          <p className="mb-10 text-lg">
-            Reach out to us anytime — we’re happy to help.
-          </p>
 
           <Link
             href="/contact#contact"
@@ -129,8 +167,8 @@ export default function FAQPage() {
           >
             Contact Us
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

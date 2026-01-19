@@ -11,6 +11,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   const { items } = useCart();
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
@@ -18,18 +19,18 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  /* ===== SCROLL EFFECT ===== */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 🔥 CENTRAL NAV HANDLER
+  /* ===== CENTRAL NAV HANDLER ===== */
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     item: string
   ) => {
-    /* HOME */
     if (item === "Home") {
       e.preventDefault();
       pathname === "/"
@@ -37,30 +38,31 @@ export default function Navbar() {
         : router.push("/");
     }
 
-    /* CONTACT */
     if (item === "Contact") {
       e.preventDefault();
-
-      if (pathname === "/contact") {
-        document
-          .getElementById("contact")
-          ?.scrollIntoView({ behavior: "smooth" });
-      } else {
-        router.push("/contact#contact");
-      }
+      pathname === "/contact"
+        ? document
+            .getElementById("contact")
+            ?.scrollIntoView({ behavior: "smooth" })
+        : router.push("/contact#contact");
     }
 
-    /* ABOUT */
     if (item === "About") {
       e.preventDefault();
+      pathname === "/about"
+        ? document
+            .getElementById("about")
+            ?.scrollIntoView({ behavior: "smooth" })
+        : router.push("/about#about");
+    }
+  };
 
-      if (pathname === "/about") {
-        document
-          .getElementById("about")
-          ?.scrollIntoView({ behavior: "smooth" });
-      } else {
-        router.push("/about#about");
-      }
+  /* ===== SEARCH HANDLER ===== */
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+      setSearchOpen(false);
+      setQuery("");
     }
   };
 
@@ -72,7 +74,7 @@ export default function Navbar() {
         border-b border-[#e6cfa7]/20`}
       >
         <nav className="flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
-          {/* LOGO */}
+          {/* ===== LOGO ===== */}
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "Home")}
@@ -86,7 +88,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* LINKS */}
+          {/* ===== LINKS ===== */}
           <div className="hidden md:flex gap-10">
             {["Home", "Shop", "Collections", "About", "Contact"].map((item) => {
               const href =
@@ -111,16 +113,38 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* ACTIONS */}
-          <div className="flex gap-4 items-center">
-            <Search
-              className="w-6 h-6 text-[#eadbc4] cursor-pointer"
-              onClick={() => setSearchOpen(!searchOpen)}
-            />
+          {/* ===== ACTIONS ===== */}
+          <div className="flex gap-4 items-center relative">
+            {/* SEARCH */}
+            <div className="relative">
+              <Search
+                className="w-6 h-6 text-[#eadbc4] cursor-pointer"
+                onClick={() => setSearchOpen((p) => !p)}
+              />
+
+              {searchOpen && (
+                <input
+                  autoFocus
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleSearch}
+                  placeholder="Search products..."
+                  className="absolute right-0 mt-3 w-64 px-4 py-2 rounded-lg
+                             bg-[#2b1d12] border border-[#e6cfa7]/40
+                             text-[#fdfaf6] placeholder:text-[#eadbc4]/60
+                             shadow-xl outline-none"
+                />
+              )}
+            </div>
+
+            {/* CART */}
             <button onClick={() => setCartOpen(true)} className="relative">
               <ShoppingCart className="w-6 h-6 text-[#eadbc4]" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-[#e6cfa7] text-xs font-bold flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full
+                                 bg-[#e6cfa7] text-xs font-bold
+                                 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -129,6 +153,7 @@ export default function Navbar() {
         </nav>
       </div>
 
+      {/* CART DRAWER */}
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );

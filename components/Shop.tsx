@@ -1,8 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useCart } from '@/app/providers/CartProvider';
 
-const productsData = [
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+};
+
+const productsData: Product[] = [
   { id: 1, name: 'Rainbow Glass Bead Set', price: 299, image: 'https://placehold.co/300x300/png?text=Glass+Beads' },
   { id: 2, name: 'Embroidery Thread Collection', price: 399, image: 'https://placehold.co/300x300/png?text=Thread' },
   { id: 3, name: 'Wooden Bead Assortment', price: 249, image: 'https://placehold.co/300x300/png?text=Wooden+Beads' },
@@ -16,10 +24,25 @@ const productsData = [
 
 export default function ProductsPage() {
   const [maxPrice, setMaxPrice] = useState(1000);
+  const { addToCart, items: cartItems } = useCart();
 
   const filteredProducts = productsData.filter(
     (p) => p.price <= maxPrice
   );
+
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: String(product.id),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    });
+  };
+
+  const isInCart = (product: Product) => {
+    return cartItems.some((item) => item.id === String(product.id));
+  };
 
   return (
     <section className="relative min-h-screen px-6 py-24 font-serif overflow-hidden">
@@ -50,8 +73,6 @@ export default function ProductsPage() {
 
           {/* SIDEBAR */}
           <aside className="card space-y-10">
-
-            {/* Categories */}
             <div>
               <h3 className="title">Categories</h3>
               <ul className="space-y-3 text-sm">
@@ -64,10 +85,8 @@ export default function ProductsPage() {
               </ul>
             </div>
 
-            {/* PRICE RANGE SLIDER */}
             <div>
               <h3 className="title mb-4">Price Range</h3>
-
               <div className="flex justify-between text-sm mb-2">
                 <span>₹0</span>
                 <span>₹{maxPrice}</span>
@@ -79,63 +98,47 @@ export default function ProductsPage() {
                 max="1000"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-[#3ba99c]"
+                className="w-full accent-[#e6cfa7]"
               />
             </div>
-
-            {/* OFFER */}
-            <div className="p-4 rounded-xl border border-[#e6cfa7]/30 bg-[#2b1d12]/70">
-              <h4 className="font-semibold text-[#fdfaf6] mb-2">
-                Special Offer
-              </h4>
-              <p className="text-sm mb-3">
-                Get 10% off on orders above ₹1500
-              </p>
-              <button className="w-full py-2 rounded-full border border-[#e6cfa7] text-[#e6cfa7] hover:bg-[#e6cfa7] hover:text-[#3b2a1a] transition">
-                Shop Now
-              </button>
-            </div>
-
           </aside>
 
           {/* PRODUCTS */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {filteredProducts.map((p) => {
+              const added = isInCart(p);
 
-            {filteredProducts.length === 0 && (
-              <p className="col-span-full text-center opacity-70">
-                No products found in this price range
-              </p>
-            )}
+              return (
+                <div key={p.id} className="card flex flex-col">
+                  <div className="h-48 rounded-xl overflow-hidden mb-4 border border-[#e6cfa7]/30">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  </div>
 
-            {filteredProducts.map((p) => (
-              <div key={p.id} className="card flex flex-col">
-                <div className="h-48 rounded-xl overflow-hidden mb-4 border border-[#e6cfa7]/30">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <h3 className="font-semibold text-[#fdfaf6] mb-1">
+                    {p.name}
+                  </h3>
+
+                  <p className="text-[#e6cfa7] font-bold mb-4">
+                    ₹{p.price}
+                  </p>
+
+                  <button
+                    onClick={() => !added && handleAddToCart(p)}
+                    className={`mt-auto py-2 rounded-lg transition 
+                      ${added 
+                        ? 'bg-gray-500 cursor-not-allowed text-white opacity-80'
+                        : 'bg-[#e35b3a] text-white hover:opacity-90'}`}
+                  >
+                    {added ? 'Added' : 'Add to Cart'}
+                  </button>
                 </div>
-
-                <h3 className="font-semibold text-[#fdfaf6] mb-1">
-                  {p.name}
-                </h3>
-
-                <p className="text-[#e6cfa7] font-bold mb-4">
-                  ₹{p.price}
-                </p>
-
-                <button className="mt-auto py-2 rounded-lg bg-[#e35b3a] text-white hover:opacity-90 transition">
-                  Add to Cart
-                </button>
-              </div>
-            ))}
-
+              );
+            })}
           </div>
+
         </div>
       </div>
 
-      {/* STYLES */}
       <style jsx>{`
         .card {
           background: rgba(43, 29, 18, 0.85);

@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/app/providers/CartProvider";
+import { useRouter } from "next/navigation"; // ✅ Next.js router
 
 type Props = {
   open: boolean;
@@ -16,6 +17,13 @@ export default function CartDrawer({ open, onClose }: Props) {
     decreaseQty,
     removeItem,
   } = useCart();
+
+  const router = useRouter(); // ✅ router hook
+
+  const handleCheckout = () => {
+    onClose(); // close drawer first
+    router.push("/checkout"); // navigate to checkout page
+  };
 
   return (
     <>
@@ -122,6 +130,7 @@ export default function CartDrawer({ open, onClose }: Props) {
           </div>
 
           <button
+            onClick={handleCheckout} // ✅ navigate
             className="w-full rounded-lg bg-[#e6cfa7]
                        py-3 text-sm font-bold text-[#3b2a1a]
                        hover:bg-[#dcc39a] transition"

@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
                          opacity-0 animate-[paperReveal_1.4s_0.8s_ease-out_forwards]"
             >
               <Link
-                href="/collections"
+                href="/shop"
                 className="px-10 py-4 bg-[#e6cfa7] text-[#3b2a1a]
                            font-semibold rounded-lg shadow-xl
                            hover:bg-[#dcc39a] transition-colors"
@@ -98,7 +98,7 @@ const Hero: React.FC = () => {
               </Link>
 
               <Link
-                href="/catalog"
+                href="/collections"
                 className="px-10 py-4 border border-[#e6cfa7]/60
                            text-[#fdfaf6] rounded-lg
                            hover:bg-[#4a3323]/40 transition-colors"

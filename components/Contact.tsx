@@ -7,65 +7,43 @@ import {
   Mail,
   Clock,
   Send,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Headphones,
 } from "lucide-react";
 
 const info = [
   {
     title: "Visit Our Store",
     icon: MapPin,
-    lines: [
-      "123 Craft Street",
-      "Mumbai, Maharashtra 400001",
-      "India",
-    ],
+    lines: ["123 Craft Street", "Mumbai, Maharashtra", "India"],
   },
   {
     title: "Call Us",
     icon: Phone,
-    lines: [
-      "+91 98765 43210",
-      "+91 98765 43211",
-      "Mon–Sat: 9AM – 7PM",
-    ],
+    lines: ["+91 98765 43210", "Mon–Sat: 9AM – 7PM"],
   },
   {
     title: "Email Us",
     icon: Mail,
-    lines: [
-      "info@aryamadamcraft.com",
-      "support@aryamadamcraft.com",
-      "We reply within 24 hours",
-    ],
+    lines: ["info@aryamadamcraft.com", "Reply within 24 hours"],
   },
   {
     title: "Business Hours",
     icon: Clock,
-    lines: [
-      "Monday – Friday: 9AM – 7PM",
-      "Saturday: 10AM – 6PM",
-      "Sunday: Closed",
-    ],
+    lines: ["Mon–Fri: 9AM – 7PM", "Sunday: Closed"],
   },
 ];
 
 export default function ContactPage() {
   const [message, setMessage] = useState("");
 
-  // 🔥 Animation observer
+  /* 🔥 Intersection Animation */
   useEffect(() => {
     const elements = document.querySelectorAll('[data-animate="antique"]');
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      entries =>
         entries.forEach(entry =>
           entry.target.classList.toggle("visible", entry.isIntersecting)
-        );
-      },
+        ),
       { threshold: 0.3 }
     );
 
@@ -73,24 +51,17 @@ export default function ContactPage() {
     return () => observer.disconnect();
   }, []);
 
-  // 🔥 Auto scroll when coming from /#contact
+  /* 🔥 Auto scroll from #contact */
   useEffect(() => {
     if (window.location.hash === "#contact") {
-      setTimeout(() => {
-        document
-          .getElementById("contact")
-          ?.scrollIntoView({ behavior: "smooth" });
-      }, 200);
+      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
   return (
-    // 👇 IMPORTANT ID
-    <section
-      id="contact"
-      className="relative font-serif overflow-hidden"
-    >
-      {/* BACKGROUND */}
+    <section id="contact" className="relative font-serif overflow-hidden">
+
+      {/* ===== BACKGROUND ===== */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -100,73 +71,69 @@ export default function ContactPage() {
       />
       <div className="absolute inset-0 bg-[#2b1d12]/90" />
 
-      {/* ================= GET IN TOUCH ================= */}
-      <div className="relative py-32 px-6 text-center max-w-5xl mx-auto">
+      {/* ===== GET IN TOUCH ===== */}
+      <div className="relative py-32 px-6 text-center">
         <div
           data-animate="antique"
-          className="px-10 py-20 rounded-3xl
+          className="max-w-5xl mx-auto px-10 py-20 rounded-3xl
                      bg-[#3b2a1a]/80 border border-[#e6cfa7]/40
                      shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf6] mb-6">
             Get In Touch
           </h2>
-          <div className="mb-8 text-[#e6cfa7] tracking-widest">
-            ───── ✦ ─────
-          </div>
+
+          <div className="mb-8 text-[#e6cfa7]">───── ✦ ─────</div>
+
           <p className="text-[#eadbc4] text-lg md:text-xl max-w-3xl mx-auto">
             Have questions or need guidance?
-            We’d love to hear from you. Send us a message and our
-            team will respond as soon as possible.
+            <br />
+            We’d love to hear from you.
           </p>
         </div>
       </div>
 
-      {/* ================= CONTACT INFO ================= */}
-      <div className="relative py-24 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {info.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={index}
-                data-animate="antique"
-                className="rounded-2xl p-8 bg-[#3b2a1a]/80
-                           border border-[#e6cfa7]/40
-                           shadow-[0_20px_60px_rgba(0,0,0,0.5)]
-                           text-center"
-              >
-                <div className="mx-auto mb-6 w-14 h-14 rounded-xl
-                                flex items-center justify-center
-                                bg-[#e6cfa7]">
-                  <Icon className="w-6 h-6 text-[#3b2a1a]" />
-                </div>
-
-                <h3 className="text-lg font-semibold text-[#fdfaf6] mb-4">
-                  {item.title}
-                </h3>
-
-                <div className="space-y-2 text-[#eadbc4] text-sm">
-                  {item.lines.map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
-                </div>
+      {/* ===== CONTACT INFO ===== */}
+      <div className="relative py-24 px-6 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {info.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={i}
+              data-animate="antique"
+              className="rounded-2xl p-8 bg-[#3b2a1a]/80
+                         border border-[#e6cfa7]/40 text-center"
+            >
+              <div className="mx-auto mb-5 w-14 h-14 rounded-xl
+                              flex items-center justify-center
+                              bg-[#e6cfa7]">
+                <Icon className="w-6 h-6 text-[#3b2a1a]" />
               </div>
-            );
-          })}
-        </div>
+
+              <h3 className="text-[#fdfaf6] font-semibold mb-3">
+                {item.title}
+              </h3>
+
+              {item.lines.map((line, idx) => (
+                <p key={idx} className="text-[#eadbc4] text-sm">
+                  {line}
+                </p>
+              ))}
+            </div>
+          );
+        })}
       </div>
 
-      {/* ================= CONTACT FORM ================= */}
+      {/* ===== FORM + MAP ===== */}
       <div className="relative py-28 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
+
         {/* FORM */}
         <div
           data-animate="antique"
           className="lg:col-span-2 bg-[#3b2a1a]/80
-                     border border-[#e6cfa7]/40 rounded-2xl
-                     p-10 shadow-[0_30px_80px_rgba(0,0,0,0.6)]"
+                     border border-[#e6cfa7]/40 rounded-2xl p-10"
         >
-          <h2 className="text-3xl font-bold text-[#fdfaf6] mb-3">
+          <h2 className="text-3xl font-bold text-[#fdfaf6] mb-6">
             Send Us a Message
           </h2>
 
@@ -178,7 +145,7 @@ export default function ContactPage() {
             <textarea
               maxLength={500}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={e => setMessage(e.target.value)}
               placeholder="Tell us how we can help you…"
               className="w-full h-32 px-5 py-3 rounded-lg
                          bg-[#2b1d12]/70 border border-[#e6cfa7]/40
@@ -189,7 +156,7 @@ export default function ContactPage() {
               {message.length}/500 characters
             </p>
 
-            <button className="btn-primary">
+            <button className="btn-primary flex items-center gap-2">
               <Send size={16} /> Send Message
             </button>
           </form>
@@ -218,8 +185,6 @@ export default function ContactPage() {
               className="w-full h-64"
             />
           </div>
-
-          
         </div>
       </div>
     </section>
