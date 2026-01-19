@@ -128,7 +128,7 @@ const Footer: FC = () => {
         className="relative border-t border-[#e6cfa7]/30"
       >
         <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between text-sm">
-          <p>© 2025 Arya Madam Craft Supplies</p>
+          <p>© 2026 Arya Madam Craft Supplies</p>
           <Link href="/privacy-policy">Privacy Policy</Link>
         </div>
       </div>

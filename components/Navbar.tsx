@@ -57,17 +57,18 @@ export default function Navbar() {
     }
   };
 
-  /* ===== SEARCH HANDLER ===== */
+  /* ===== SEARCH HANDLER (SAME PAGE) ===== */
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-      setSearchOpen(false);
-      setQuery("");
+    if (e.key === "Enter") {
+      router.replace(`?q=${encodeURIComponent(query)}`, {
+        scroll: false,
+      });
     }
   };
 
   return (
     <>
+      {/* ===== NAVBAR ===== */}
       <div
         className={`sticky top-0 z-50 transition-all
         ${scrolled ? "bg-black/80 backdrop-blur-md" : "bg-[#2b1d12]/60"}
@@ -78,7 +79,7 @@ export default function Navbar() {
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "Home")}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 cursor-pointer"
           >
             <div className="w-12 h-12 bg-[#4a3323]/80 rounded-xl border border-[#e6cfa7]/40 flex items-center justify-center">
               <Palette className="w-7 h-7 text-[#e6cfa7]" />
@@ -105,7 +106,7 @@ export default function Navbar() {
                   key={item}
                   href={href}
                   onClick={(e) => handleNavClick(e, item)}
-                  className="text-[#eadbc4] hover:text-[#fdfaf6]"
+                  className="text-[#eadbc4] hover:text-[#fdfaf6] transition cursor-pointer"
                 >
                   {item}
                 </Link>
@@ -118,7 +119,7 @@ export default function Navbar() {
             {/* SEARCH */}
             <div className="relative">
               <Search
-                className="w-6 h-6 text-[#eadbc4] cursor-pointer"
+                className="w-6 h-6 text-[#eadbc4] cursor-pointer hover:text-[#fdfaf6] transition"
                 onClick={() => setSearchOpen((p) => !p)}
               />
 
@@ -139,12 +140,18 @@ export default function Navbar() {
             </div>
 
             {/* CART */}
-            <button onClick={() => setCartOpen(true)} className="relative">
-              <ShoppingCart className="w-6 h-6 text-[#eadbc4]" />
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative cursor-pointer hover:scale-105 transition-transform"
+            >
+              <ShoppingCart className="w-6 h-6 text-[#eadbc4] hover:text-[#fdfaf6] transition" />
+
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full
-                                 bg-[#e6cfa7] text-xs font-bold
-                                 flex items-center justify-center">
+                <span
+                  className="absolute -top-2 -right-2 h-5 w-5 rounded-full
+                             bg-[#e6cfa7] text-xs font-bold
+                             flex items-center justify-center text-[#3b2a1a]"
+                >
                   {totalItems}
                 </span>
               )}
@@ -153,7 +160,7 @@ export default function Navbar() {
         </nav>
       </div>
 
-      {/* CART DRAWER */}
+      {/* ===== CART DRAWER ===== */}
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );

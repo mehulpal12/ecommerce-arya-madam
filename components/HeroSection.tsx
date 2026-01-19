@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('/hero-craft-supplies.jpg'), url('https://images.unsplash.com/photo-1505904267569-1fdda0a87a07?auto=format&fit=crop&w=1920&q=80')",
+            "url('/hero-craft-supplies.jpg'), url('/assets/paperTexture.jpg')",
           backgroundBlendMode: 'multiply',
           animation: 'depthMove 50s ease-in-out infinite alternate',
         }}

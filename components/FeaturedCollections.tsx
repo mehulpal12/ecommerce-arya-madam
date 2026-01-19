@@ -50,20 +50,16 @@ export default function FeaturedCollections() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
+          entry.target.classList.toggle(
+            "visible",
+            entry.isIntersecting
+          );
         });
       },
-      {
-        threshold: 0.25,
-      }
+      { threshold: 0.25 }
     );
 
     elements.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, []);
 
@@ -83,10 +79,7 @@ export default function FeaturedCollections() {
       <div className="relative mx-auto max-w-7xl">
 
         {/* Heading */}
-        <div
-          data-animate="card"
-          className="mb-16 text-center"
-        >
+        <div data-animate="card" className="mb-16 text-center">
           <span
             className="inline-block mb-6 px-6 py-2
                        border border-[#e6cfa7]/60
@@ -118,7 +111,8 @@ export default function FeaturedCollections() {
               data-animate="card"
               className="group relative h-[280px] overflow-hidden rounded-2xl
                          border border-[#e6cfa7]/30
-                         shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                         shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                         cursor-pointer"
             >
               {/* Image */}
               <Image
@@ -130,8 +124,10 @@ export default function FeaturedCollections() {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t
-                              from-[#1f140c]/90 via-[#2b1d12]/60 to-transparent" />
+              <div
+                className="absolute inset-0 bg-gradient-to-t
+                           from-[#1f140c]/90 via-[#2b1d12]/60 to-transparent"
+              />
 
               {/* Content */}
               <div className="absolute bottom-6 left-6 right-6">
@@ -157,6 +153,7 @@ export default function FeaturedCollections() {
                   className="mt-4 inline-flex items-center gap-2
                              text-sm font-semibold
                              text-[#e6cfa7]
+                             cursor-pointer
                              hover:gap-3 transition-all duration-300"
                 >
                   Explore Collection →
@@ -165,7 +162,6 @@ export default function FeaturedCollections() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

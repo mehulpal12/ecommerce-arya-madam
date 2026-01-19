@@ -10,42 +10,42 @@ const collections = [
     title: 'Beads & Charms',
     count: '150+ Products',
     desc: 'Glass, crystal, wooden & metal beads for jewelry making.',
-    image: 'https://placehold.co/600x400/png?text=Beads+%26+Charms',
+    image: '/assets/beadsAndCharms2.jpeg',
   },
   {
     id: 2,
     title: 'DIY Craft Kits',
     count: '40+ Products',
     desc: 'Complete kits to bring your creative ideas to life.',
-    image: 'https://placehold.co/600x400/png?text=DIY+Craft+Kits',
+    image: '/assets/DiyCraft2.jpeg',
   },
   {
     id: 3,
     title: 'Thread & Yarn',
     count: '80+ Products',
     desc: 'Embroidery, silk, cotton & specialty threads.',
-    image: 'https://placehold.co/600x400/png?text=Thread+%26+Yarn',
+    image: '/assets/threadAndYarn2.jpeg',
   },
   {
     id: 4,
     title: 'Decorative & Art',
     count: '60+ Products',
     desc: 'Decorative elements for art & craft projects.',
-    image: 'https://placehold.co/600x400/png?text=Decorative+%26+Art',
+    image: '/assets/artisanSupplies.jpeg',
   },
   {
     id: 5,
     title: 'Tools & Accessories',
     count: '35+ Products',
     desc: 'Essential tools for precision crafting.',
-    image: 'https://placehold.co/600x400/png?text=Craft+Tools',
+    image: '/assets/toolsAndAcc.jpeg',
   },
   {
     id: 6,
     title: 'Gift Packs & Bundles',
     count: '25+ Products',
     desc: 'Curated bundles perfect for gifting & beginners.',
-    image: 'https://placehold.co/600x400/png?text=Bundles',
+    image: '/assets/giftPacks.jpeg',
   },
 ];
 
@@ -92,7 +92,10 @@ export default function CollectionsPage() {
               <div className="group relative rounded-3xl overflow-hidden
                               border border-[#e6cfa7]/25
                               bg-[#2b1d12]/70
-                              shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                              shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                              cursor-pointer
+                              hover:shadow-[0_25px_70px_rgba(0,0,0,0.7)]
+                              transition-all duration-300">
 
                 <div className="h-56 overflow-hidden">
                   <img
@@ -131,6 +134,7 @@ export default function CollectionsPage() {
                                text-[#e6cfa7]
                                hover:bg-[#e6cfa7]
                                hover:text-[#3b2a1a]
+                               cursor-pointer
                                transition text-sm"
                   >
                     Explore Collection
@@ -145,7 +149,10 @@ export default function CollectionsPage() {
         <CurtainReveal>
           <div className="rounded-3xl border border-[#e6cfa7]/30
                           bg-[#2b1d12]/80 p-14 text-center
-                          shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
+                          shadow-[0_20px_60px_rgba(0,0,0,0.6)]
+                          cursor-pointer
+                          hover:shadow-[0_25px_70px_rgba(0,0,0,0.7)]
+                          transition-all duration-300">
             <h2 className="text-3xl font-bold text-[#fdfaf6] mb-4">
               Need Help Finding Something?
             </h2>

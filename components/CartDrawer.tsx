@@ -2,7 +2,7 @@
 
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/app/providers/CartProvider";
-import { useRouter } from "next/navigation"; // ✅ Next.js router
+import { useRouter } from "next/navigation";
 
 type Props = {
   open: boolean;
@@ -18,11 +18,11 @@ export default function CartDrawer({ open, onClose }: Props) {
     removeItem,
   } = useCart();
 
-  const router = useRouter(); // ✅ router hook
+  const router = useRouter();
 
   const handleCheckout = () => {
-    onClose(); // close drawer first
-    router.push("/checkout"); // navigate to checkout page
+    onClose();
+    router.push("/checkout");
   };
 
   return (
@@ -31,7 +31,7 @@ export default function CartDrawer({ open, onClose }: Props) {
       {open && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-black/50"
+          className="fixed inset-0 z-40 bg-black/50 cursor-pointer"
         />
       )}
 
@@ -50,7 +50,11 @@ export default function CartDrawer({ open, onClose }: Props) {
           <h2 className="text-lg font-bold text-[#fdfaf6]">
             Your Cart
           </h2>
-          <button onClick={onClose}>
+
+          <button
+            onClick={onClose}
+            className="cursor-pointer"
+          >
             <X className="w-5 h-5 text-[#eadbc4]" />
           </button>
         </div>
@@ -84,7 +88,8 @@ export default function CartDrawer({ open, onClose }: Props) {
                       onClick={() => decreaseQty(item.id)}
                       className="w-7 h-7 flex items-center justify-center
                                  rounded bg-[#3b2a1a] text-[#eadbc4]
-                                 hover:bg-[#4a3523]"
+                                 hover:bg-[#4a3523]
+                                 cursor-pointer"
                     >
                       <Minus size={14} />
                     </button>
@@ -97,14 +102,17 @@ export default function CartDrawer({ open, onClose }: Props) {
                       onClick={() => increaseQty(item.id)}
                       className="w-7 h-7 flex items-center justify-center
                                  rounded bg-[#3b2a1a] text-[#eadbc4]
-                                 hover:bg-[#4a3523]"
+                                 hover:bg-[#4a3523]
+                                 cursor-pointer"
                     >
                       <Plus size={14} />
                     </button>
 
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="ml-auto text-[#eadbc4]/70 hover:text-red-400"
+                      className="ml-auto text-[#eadbc4]/70
+                                 hover:text-red-400
+                                 cursor-pointer"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -121,7 +129,6 @@ export default function CartDrawer({ open, onClose }: Props) {
 
         {/* FOOTER */}
         <div className="border-t border-[#e6cfa7]/20 px-5 py-4 space-y-3">
-          {/* TOTAL */}
           <div className="flex items-center justify-between text-sm">
             <span className="text-[#eadbc4]">Total</span>
             <span className="text-[#fdfaf6] font-bold">
@@ -130,10 +137,12 @@ export default function CartDrawer({ open, onClose }: Props) {
           </div>
 
           <button
-            onClick={handleCheckout} // ✅ navigate
+            onClick={handleCheckout}
             className="w-full rounded-lg bg-[#e6cfa7]
                        py-3 text-sm font-bold text-[#3b2a1a]
-                       hover:bg-[#dcc39a] transition"
+                       hover:bg-[#dcc39a]
+                       transition
+                       cursor-pointer"
           >
             Checkout
           </button>

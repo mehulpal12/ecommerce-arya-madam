@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
 import { useEffect } from "react";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { useCart } from "@/app/providers/CartProvider";
+import Link from "next/link";
+
 
 const products = [
   {
@@ -85,31 +87,27 @@ const products = [
 ];
 
 export default function BestSellers() {
-  const { addToCart } = useCart();
+  const { addToCart, increaseQty, decreaseQty, items: cartItems } = useCart();
 
   useEffect(() => {
     const elements = document.querySelectorAll('[data-animate="card"]');
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
+          entry.target.classList.toggle("visible", entry.isIntersecting);
         });
       },
       { threshold: 0.3 }
     );
-
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
+  const getCartItem = (id: string) =>
+    cartItems.find((item) => item.id === id);
+
   return (
     <section className="relative px-8 py-24 font-serif overflow-hidden">
-      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -120,7 +118,6 @@ export default function BestSellers() {
       <div className="absolute inset-0 bg-[#2b1d12]/90" />
 
       <div className="relative mx-auto max-w-7xl">
-        {/* Header */}
         <div
           data-animate="card"
           className="mb-14 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
@@ -142,92 +139,113 @@ export default function BestSellers() {
           </span>
         </div>
 
-        {/* Grid */}
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              data-animate="card"
-              className="group relative rounded-xl bg-[#3b2a1a]/80 p-5
-                         border border-[#e6cfa7]/30
-                         shadow-[0_10px_40px_rgba(0,0,0,0.4)]
-                         hover:-translate-y-1
-                         hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-                         transition"
-            >
-              {/* Wishlist */}
-              <button
-                className="absolute right-4 top-4 rounded-full
-                           bg-[#2b1d12]/80 p-2
-                           border border-[#e6cfa7]/30"
-              >
-                <Heart className="h-4 w-4 text-[#e6cfa7]" />
-              </button>
+          {products.map((product) => {
+            const cartItem = getCartItem(product.id);
 
-              {/* Badge */}
-              {product.badge && (
-                <span
-                  className="absolute left-4 top-4 rounded
-                             bg-[#e6cfa7] px-3 py-1
-                             text-xs font-semibold text-[#3b2a1a]"
-                >
-                  {product.badge}
-                </span>
-              )}
-
-              {/* Image */}
-              <div className="relative h-44 w-full mb-4 rounded-lg overflow-hidden bg-[#2b1d12]/60">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover transition-transform duration-500
-                             group-hover:scale-105"
-                />
-              </div>
-
-              {/* Info */}
-              <h3 className="text-sm font-semibold text-[#fdfaf6]">
-                {product.name}
-              </h3>
-
-              <div className="mt-2 text-xs text-[#e6cfa7]">
-                ★ {product.rating}{" "}
-                <span className="text-[#eadbc4]/70">
-                  ({product.reviews})
-                </span>
-              </div>
-
-              <div className="mt-3 flex items-center gap-2">
-                <span className="font-semibold text-[#fdfaf6]">
-                  ₹{product.price}
-                </span>
-                <span className="text-sm text-[#eadbc4]/60 line-through">
-                  ₹{product.oldPrice}
-                </span>
-              </div>
-
-              {/* ADD TO CART (REAL LOGIC) */}
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: product.id,
-                    title: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: 1,
-                  })
-                }
-                className="mt-5 w-full rounded-lg
-                           bg-[#e6cfa7] py-2.5
-                           text-sm font-semibold text-[#3b2a1a]
-                           hover:bg-[#dcc39a]
+            return (
+              <div
+                key={product.id}
+                data-animate="card"
+                className="group relative rounded-xl bg-[#3b2a1a]/80 p-5
+                           border border-[#e6cfa7]/30
+                           shadow-[0_10px_40px_rgba(0,0,0,0.4)]
+                           hover:-translate-y-1
+                           hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
                            transition"
               >
-                Add to Cart
-              </button>
-            </div>
-          ))}
+                <button
+                  className="absolute right-4 top-4 rounded-full
+                             bg-[#2b1d12]/80 p-2
+                             border border-[#e6cfa7]/30
+                             cursor-pointer hover:scale-110 transition"
+                >
+                  <Heart className="h-4 w-4 text-[#e6cfa7]" />
+                </button>
+
+                {product.badge && (
+                  <span
+                    className="absolute left-4 top-4 rounded
+                               bg-[#e6cfa7] px-3 py-1
+                               text-xs font-semibold text-[#3b2a1a]"
+                  >
+                    {product.badge}
+                  </span>
+                )}
+
+                <Link href={`/product/${product.id}`} className="block">
+  <div className="relative h-44 w-full mb-4 rounded-lg overflow-hidden bg-[#2b1d12]/60">
+    <Image
+      src={product.image}
+      alt={product.name}
+      fill
+      className="object-cover transition-transform duration-500
+                 group-hover:scale-105"
+    />
+  </div>
+
+  <h3 className="text-sm font-semibold text-[#fdfaf6]">
+    {product.name}
+  </h3>
+</Link>
+
+
+                <div className="mt-2 text-xs text-[#e6cfa7]">
+                  ★ {product.rating}{" "}
+                  <span className="text-[#eadbc4]/70">({product.reviews})</span>
+                </div>
+
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="font-semibold text-[#fdfaf6]">
+                    ₹{product.price}
+                  </span>
+                  <span className="text-sm text-[#eadbc4]/60 line-through">
+                    ₹{product.oldPrice}
+                  </span>
+                </div>
+
+                {/* ADD TO CART / QUANTITY */}
+                {!cartItem ? (
+                  <button
+                    onClick={() =>
+                      addToCart({
+                        id: product.id,
+                        title: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: 1,
+                      })
+                    }
+                    className="mt-5 w-full rounded-lg
+                               bg-[#e6cfa7] py-2.5
+                               text-sm font-semibold text-[#3b2a1a]
+                               hover:bg-[#dcc39a]
+                               cursor-pointer transition"
+                  >
+                    Add to Cart
+                  </button>
+                ) : (
+                  <div className="mt-5 flex items-center justify-between border border-[#e6cfa7]/40 rounded-lg px-4 py-2">
+                    <button
+                      onClick={() => decreaseQty(cartItem.id)}
+                      className="text-lg font-bold hover:text-white"
+                    >
+                      -
+                    </button>
+
+                    <span className="font-semibold">{cartItem.quantity}</span>
+
+                    <button
+                      onClick={() => increaseQty(cartItem.id)}
+                      className="text-lg font-bold hover:text-white"
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,58 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-};
+import React from 'react';
+import { useCart } from '@/app/providers/CartProvider';
 
 export default function CheckoutPage() {
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      name: 'Handcrafted Brass Diya',
-      price: 1499,
-      quantity: 1,
-      image:
-        'https://placehold.co/200x200/png?text=Brass+Diya',
-    },
-    {
-      id: 2,
-      name: 'Traditional Incense Holder',
-      price: 899,
-      quantity: 2,
-      image:
-        'https://placehold.co/200x200/png?text=Incense+Holder',
-    },
-  ]);
+  const { items: cartItems, increaseQty, decreaseQty } = useCart();
 
-  const [address, setAddress] = useState({
-    name: '',
-    phone: '',
-    street: '',
-    city: '',
-    pincode: '',
-  });
+  // Delivery fields state
+  const [name, setName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [street, setStreet] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [pincode, setPincode] = React.useState('');
 
-  const updateQty = (id: number, qty: number) => {
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id ? { ...p, quantity: qty < 1 ? 1 : qty } : p
-      )
-    );
-  };
-
-  const total = products.reduce(
+  // Total price
+  const total = cartItems.reduce(
     (sum, p) => sum + p.price * p.quantity,
     0
   );
 
+  // WhatsApp order
   const orderOnWhatsApp = () => {
-    const productText = products
+    if (!name || !phone || !street || !city || !pincode) return;
+
+    const productText = cartItems
       .map(
         (p) =>
           `• ${p.name} × ${p.quantity} = ₹${p.price * p.quantity}`
@@ -66,12 +37,10 @@ ${productText}
 
 💰 Total: ₹${total}
 
-👤 Name: ${address.name}
-📞 Phone: ${address.phone}
-
-📍 Address:
-${address.street}
-${address.city} - ${address.pincode}
+📦 Delivery Details:
+Name: ${name}
+Phone: ${phone}
+Address: ${street}, ${city}, ${pincode}
     `.trim();
 
     const whatsappNumber = '919876543210'; // 👈 apna number
@@ -81,9 +50,11 @@ ${address.city} - ${address.pincode}
     );
   };
 
+  // Form validation
+  const isFormValid = name && phone && street && city && pincode;
+
   return (
     <section className="relative min-h-screen px-6 py-24 font-serif overflow-hidden">
-      {/* BACKGROUND */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -102,51 +73,44 @@ ${address.city} - ${address.pincode}
 
           {/* LEFT */}
           <div className="lg:col-span-2 space-y-10">
-
-            {/* ADDRESS */}
+            {/* DELIVERY ADDRESS */}
             <div className="card">
               <h2 className="title">Delivery Address</h2>
-
               <div className="grid md:grid-cols-2 gap-6">
                 <input
                   placeholder="Full Name"
-                  className="input"
-                  onChange={(e) =>
-                    setAddress({ ...address, name: e.target.value })
-                  }
+                  className="input cursor-text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <input
                   placeholder="Phone Number"
-                  className="input"
-                  onChange={(e) =>
-                    setAddress({ ...address, phone: e.target.value })
-                  }
+                  className="input cursor-text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
 
               <textarea
                 placeholder="Street Address"
-                className="input mt-6"
+                className="input mt-6 cursor-text"
                 rows={3}
-                onChange={(e) =>
-                  setAddress({ ...address, street: e.target.value })
-                }
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
               />
 
               <div className="grid md:grid-cols-2 gap-6 mt-6">
                 <input
                   placeholder="City"
-                  className="input"
-                  onChange={(e) =>
-                    setAddress({ ...address, city: e.target.value })
-                  }
+                  className="input cursor-text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
                 />
                 <input
                   placeholder="Pincode"
-                  className="input"
-                  onChange={(e) =>
-                    setAddress({ ...address, pincode: e.target.value })
-                  }
+                  className="input cursor-text"
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
                 />
               </div>
             </div>
@@ -165,9 +129,14 @@ ${address.city} - ${address.pincode}
             <h2 className="title">Order Summary</h2>
 
             <div className="space-y-6">
-              {products.map((p) => (
+              {cartItems.length === 0 && (
+                <p className="text-center text-[#fdfaf6]">
+                  Your cart is empty 😕
+                </p>
+              )}
+
+              {cartItems.map((p) => (
                 <div key={p.id} className="flex gap-4 items-center">
-                  {/* IMAGE */}
                   <div className="w-20 h-20 rounded-xl overflow-hidden border border-[#e6cfa7]/30">
                     <img
                       src={p.image}
@@ -176,26 +145,28 @@ ${address.city} - ${address.pincode}
                     />
                   </div>
 
-                  {/* INFO */}
                   <div className="flex-1">
-                    <p className="font-medium text-[#fdfaf6]">
-                      {p.name}
-                    </p>
+                    <p className="font-medium text-[#fdfaf6]">{p.name}</p>
                     <p className="text-sm opacity-70">
                       ₹{p.price} × {p.quantity}
                     </p>
                   </div>
 
-                  {/* QTY */}
-                  <input
-                    type="number"
-                    min={1}
-                    value={p.quantity}
-                    onChange={(e) =>
-                      updateQty(p.id, Number(e.target.value))
-                    }
-                    className="qty"
-                  />
+                  <div className="flex items-center gap-2 border border-[#e6cfa7]/40 rounded-lg px-2 py-1">
+                    <button
+                      onClick={() => decreaseQty(String(p.id))}
+                      className="text-xl font-bold hover:text-white hover:cursor-pointer"
+                    >
+                      -
+                    </button>
+                    <span className="font-semibold">{p.quantity}</span>
+                    <button
+                      onClick={() => increaseQty(String(p.id))}
+                      className="text-xl font-bold hover:text-white hover:cursor-pointer"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -209,7 +180,9 @@ ${address.city} - ${address.pincode}
 
             <button
               onClick={orderOnWhatsApp}
-              className="w-full py-4 rounded-full bg-[#25D366] text-[#1f3b2c] font-semibold tracking-wide hover:opacity-90 transition"
+              disabled={!isFormValid}
+              className={`w-full py-4 rounded-full text-[#1f3b2c] font-semibold tracking-wide transition
+                ${isFormValid ? 'bg-[#25D366] hover:opacity-90 cursor-pointer' : 'bg-gray-500 cursor-not-allowed'}`}
             >
               Order on WhatsApp
             </button>
@@ -242,15 +215,6 @@ ${address.city} - ${address.pincode}
         }
         .input::placeholder {
           color: rgba(234, 219, 196, 0.6);
-        }
-        .qty {
-          width: 60px;
-          background: transparent;
-          border: 1px solid rgba(230, 207, 167, 0.4);
-          border-radius: 8px;
-          padding: 6px;
-          text-align: center;
-          color: #fdfaf6;
         }
       `}</style>
     </section>
