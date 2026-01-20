@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Palette, Search, ShoppingCart } from "lucide-react";
+import {
+  Palette,
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/app/providers/CartProvider";
@@ -11,6 +17,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
 
   const { items } = useCart();
@@ -31,6 +38,8 @@ export default function Navbar() {
     e: React.MouseEvent<HTMLAnchorElement>,
     item: string
   ) => {
+    setMenuOpen(false);
+
     if (item === "Home") {
       e.preventDefault();
       pathname === "/"
@@ -57,14 +66,17 @@ export default function Navbar() {
     }
   };
 
-  /* ===== SEARCH HANDLER (SAME PAGE) ===== */
+  /* ===== SEARCH HANDLER ===== */
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       router.replace(`?q=${encodeURIComponent(query)}`, {
         scroll: false,
       });
+      setSearchOpen(false);
     }
   };
+
+  const navItems = ["Home", "Shop", "Collections", "About", "Contact"];
 
   return (
     <>
@@ -74,24 +86,24 @@ export default function Navbar() {
         ${scrolled ? "bg-black/80 backdrop-blur-md" : "bg-[#2b1d12]/60"}
         border-b border-[#e6cfa7]/20`}
       >
-        <nav className="flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
+        <nav className="flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
           {/* ===== LOGO ===== */}
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "Home")}
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center gap-3"
           >
             <div className="w-12 h-12 bg-[#4a3323]/80 rounded-xl border border-[#e6cfa7]/40 flex items-center justify-center">
               <Palette className="w-7 h-7 text-[#e6cfa7]" />
             </div>
-            <span className="text-[#fdfaf6] text-xl font-bold">
-              Arya Madam Craft Supplies
+            <span className="text-[#fdfaf6] text-lg font-bold">
+              Arya Madam
             </span>
           </Link>
 
-          {/* ===== LINKS ===== */}
+          {/* ===== DESKTOP LINKS ===== */}
           <div className="hidden md:flex gap-10">
-            {["Home", "Shop", "Collections", "About", "Contact"].map((item) => {
+            {navItems.map((item) => {
               const href =
                 item === "Home"
                   ? "/"
@@ -106,7 +118,7 @@ export default function Navbar() {
                   key={item}
                   href={href}
                   onClick={(e) => handleNavClick(e, item)}
-                  className="text-[#eadbc4] hover:text-[#fdfaf6] transition cursor-pointer"
+                  className="text-[#eadbc4] hover:text-[#fdfaf6] transition"
                 >
                   {item}
                 </Link>
@@ -115,11 +127,11 @@ export default function Navbar() {
           </div>
 
           {/* ===== ACTIONS ===== */}
-          <div className="flex gap-4 items-center relative">
+          <div className="flex gap-4 items-center">
             {/* SEARCH */}
             <div className="relative">
               <Search
-                className="w-6 h-6 text-[#eadbc4] cursor-pointer hover:text-[#fdfaf6] transition"
+                className="w-6 h-6 text-[#eadbc4] cursor-pointer hover:text-[#fdfaf6]"
                 onClick={() => setSearchOpen((p) => !p)}
               />
 
@@ -142,10 +154,9 @@ export default function Navbar() {
             {/* CART */}
             <button
               onClick={() => setCartOpen(true)}
-              className="relative cursor-pointer hover:scale-105 transition-transform"
+              className="relative hover:scale-105 transition"
             >
-              <ShoppingCart className="w-6 h-6 text-[#eadbc4] hover:text-[#fdfaf6] transition" />
-
+              <ShoppingCart className="w-6 h-6 text-[#eadbc4]" />
               {totalItems > 0 && (
                 <span
                   className="absolute -top-2 -right-2 h-5 w-5 rounded-full
@@ -156,8 +167,49 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+
+            {/* ===== HAMBURGER ===== */}
+            <button
+              onClick={() => setMenuOpen((p) => !p)}
+              className="md:hidden"
+            >
+              {menuOpen ? (
+                <X className="w-7 h-7 text-[#fdfaf6]" />
+              ) : (
+                <Menu className="w-7 h-7 text-[#fdfaf6]" />
+              )}
+            </button>
           </div>
         </nav>
+
+        {/* ===== MOBILE MENU ===== */}
+        {menuOpen && (
+          <div className="md:hidden bg-[#2b1d12]/95 backdrop-blur-md border-t border-[#e6cfa7]/20">
+            <div className="flex flex-col px-6 py-6 gap-6">
+              {navItems.map((item) => {
+                const href =
+                  item === "Home"
+                    ? "/"
+                    : item === "Contact"
+                    ? "/contact#contact"
+                    : item === "About"
+                    ? "/about#about"
+                    : `/${item.toLowerCase()}`;
+
+                return (
+                  <Link
+                    key={item}
+                    href={href}
+                    onClick={(e) => handleNavClick(e, item)}
+                    className="text-[#eadbc4] text-lg hover:text-[#fdfaf6]"
+                  >
+                    {item}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ===== CART DRAWER ===== */}

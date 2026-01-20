@@ -2,9 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Palette,
-  Search,
-  ShoppingCart,
   Shield,
   Truck,
   Headphones,
@@ -34,7 +31,10 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <div ref={heroRef} className="relative h-screen font-serif overflow-hidden">
+    <div
+      ref={heroRef}
+      className="relative min-h-screen pb-28 sm:pb-20 font-serif overflow-hidden"
+    >
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -50,89 +50,83 @@ const Hero: React.FC = () => {
       </div>
 
       {show && (
-        <>
-          
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28">
+          {/* Badge */}
+          <span
+            className="inline-block mb-8 px-6 py-2 border border-[#e6cfa7]/50
+                       rounded-full text-[#e6cfa7] uppercase text-xs tracking-widest
+                       opacity-0 animate-[paperReveal_1.4s_0.2s_ease-out_forwards]"
+          >
+            Timeless Craftsmanship
+          </span>
 
-          {/* CONTENT */}
-          <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-20">
-            {/* Badge */}
-            <span
-              className="inline-block mb-8 px-6 py-2 border border-[#e6cfa7]/50
-                         rounded-full text-[#e6cfa7] uppercase text-xs tracking-widest
-                         opacity-0 animate-[paperReveal_1.4s_0.2s_ease-out_forwards]"
+          {/* Heading */}
+          <h1
+            className="text-5xl md:text-6xl lg:text-7xl font-bold max-w-3xl mb-8
+                       opacity-0 animate-[inkSettle_1.6s_0.4s_ease-out_forwards]"
+          >
+            <span className="text-[#fdfaf6]">Arya Madam</span>
+            <br />
+            <span className="text-[#e6cfa7]">Craft Supplies</span>
+          </h1>
+
+          {/* Description */}
+          <p
+            className="text-[#eadbc4] text-lg max-w-2xl mb-14
+                       opacity-0 animate-[paperReveal_1.4s_0.6s_ease-out_forwards]"
+          >
+            Professional-grade materials inspired by heritage craftsmanship.
+            Carefully curated for artisans who value tradition and quality.
+          </p>
+
+          {/* CTA */}
+          <div
+            className="flex flex-col sm:flex-row gap-6 mb-12
+                       opacity-0 animate-[paperReveal_1.4s_0.8s_ease-out_forwards]"
+          >
+            <Link
+              href="/shop"
+              className="px-10 py-4 bg-[#e6cfa7] text-[#3b2a1a]
+                         font-semibold rounded-lg shadow-xl
+                         hover:bg-[#dcc39a] transition-colors"
             >
-              Timeless Craftsmanship
-            </span>
+              Explore Collection
+            </Link>
 
-            {/* Heading */}
-            <h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold max-w-3xl mb-8
-                         opacity-0 animate-[inkSettle_1.6s_0.4s_ease-out_forwards]"
+            <Link
+              href="/collections"
+              className="px-10 py-4 border border-[#e6cfa7]/60
+                         text-[#fdfaf6] rounded-lg
+                         hover:bg-[#4a3323]/40 transition-colors"
             >
-              <span className="text-[#fdfaf6]">Arya Madam</span>
-              <br />
-              <span className="text-[#e6cfa7]">Craft Supplies</span>
-            </h1>
-
-            {/* Description */}
-            <p
-              className="text-[#eadbc4] text-lg max-w-2xl mb-14
-                         opacity-0 animate-[paperReveal_1.4s_0.6s_ease-out_forwards]"
-            >
-              Professional-grade materials inspired by heritage craftsmanship.
-              Carefully curated for artisans who value tradition and quality.
-            </p>
-
-            {/* CTA */}
-            <div
-              className="flex flex-col sm:flex-row gap-6
-                         opacity-0 animate-[paperReveal_1.4s_0.8s_ease-out_forwards]"
-            >
-              <Link
-                href="/shop"
-                className="px-10 py-4 bg-[#e6cfa7] text-[#3b2a1a]
-                           font-semibold rounded-lg shadow-xl
-                           hover:bg-[#dcc39a] transition-colors"
-              >
-                Explore Collection
-              </Link>
-
-              <Link
-                href="/collections"
-                className="px-10 py-4 border border-[#e6cfa7]/60
-                           text-[#fdfaf6] rounded-lg
-                           hover:bg-[#4a3323]/40 transition-colors"
-              >
-                View Catalog
-              </Link>
-            </div>
-
-            {/* FEATURES — slightly higher */}
-           <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-8">
-              {[Shield, Truck, Headphones].map((Icon, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-4
-                             opacity-0
-                             animate-[paperReveal_1.2s_ease-out_forwards]"
-                  style={{ animationDelay: `${1 + i * 0.15}s` }}
-                >
-                  <div
-                    className="w-12 h-12 border border-[#e6cfa7]/40
-                               bg-[#4a3323]/60 rounded-lg
-                               flex items-center justify-center"
-                  >
-                    <Icon className="w-5 h-5 text-[#e6cfa7]" />
-                  </div>
-
-                  <span className="text-[#eadbc4]">
-                    {['Quality Assured', 'Fast Delivery', 'Expert Support'][i]}
-                  </span>
-                </div>
-              ))}
-            </div>
+              View Catalog
+            </Link>
           </div>
-        </>
+
+          {/* FEATURES */}
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+            {[Shield, Truck, Headphones].map((Icon, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-4
+                           opacity-0 animate-[paperReveal_1.2s_ease-out_forwards]"
+                style={{ animationDelay: `${1 + i * 0.15}s` }}
+              >
+                <div
+                  className="w-12 h-12 border border-[#e6cfa7]/40
+                             bg-[#4a3323]/60 rounded-lg
+                             flex items-center justify-center"
+                >
+                  <Icon className="w-5 h-5 text-[#e6cfa7]" />
+                </div>
+
+                <span className="text-[#eadbc4]">
+                  {['Quality Assured', 'Fast Delivery', 'Expert Support'][i]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
