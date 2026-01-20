@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/app/providers/CartProvider";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type Props = {
   open: boolean;
@@ -10,20 +11,27 @@ type Props = {
 };
 
 export default function CartDrawer({ open, onClose }: Props) {
-  const {
-    items,
-    totalPrice,
-    increaseQty,
-    decreaseQty,
-    removeItem,
-  } = useCart();
-
+  const { items, totalPrice, increaseQty, decreaseQty, removeItem } = useCart();
   const router = useRouter();
 
   const handleCheckout = () => {
     onClose();
     router.push("/checkout");
   };
+
+  // LOCK BODY SCROLL WHEN CART OPEN
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Cleanup in case component unmounts while open
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <>
@@ -47,14 +55,8 @@ export default function CartDrawer({ open, onClose }: Props) {
       >
         {/* HEADER */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#e6cfa7]/20">
-          <h2 className="text-lg font-bold text-[#fdfaf6]">
-            Your Cart
-          </h2>
-
-          <button
-            onClick={onClose}
-            className="cursor-pointer"
-          >
+          <h2 className="text-lg font-bold text-[#fdfaf6]">Your Cart</h2>
+          <button onClick={onClose} className="cursor-pointer">
             <X className="w-5 h-5 text-[#eadbc4]" />
           </button>
         </div>
@@ -62,9 +64,7 @@ export default function CartDrawer({ open, onClose }: Props) {
         {/* CONTENT */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {items.length === 0 ? (
-            <p className="text-[#eadbc4]/70 text-sm">
-              Your cart is empty
-            </p>
+            <p className="text-[#eadbc4]/70 text-sm">Your cart is empty</p>
           ) : (
             items.map((item) => (
               <div
@@ -76,20 +76,18 @@ export default function CartDrawer({ open, onClose }: Props) {
                   alt={item.title}
                   className="w-16 h-16 rounded object-cover"
                 />
-
                 <div className="flex-1">
                   <p className="text-sm text-[#fdfaf6] font-semibold">
                     {item.title}
                   </p>
 
-                  {/* QUANTITY CONTROLS */}
+                  {/* QUANTITY */}
                   <div className="flex items-center gap-3 mt-2">
                     <button
                       onClick={() => decreaseQty(item.id)}
                       className="w-7 h-7 flex items-center justify-center
                                  rounded bg-[#3b2a1a] text-[#eadbc4]
-                                 hover:bg-[#4a3523]
-                                 cursor-pointer"
+                                 hover:bg-[#4a3523]"
                     >
                       <Minus size={14} />
                     </button>
@@ -102,17 +100,14 @@ export default function CartDrawer({ open, onClose }: Props) {
                       onClick={() => increaseQty(item.id)}
                       className="w-7 h-7 flex items-center justify-center
                                  rounded bg-[#3b2a1a] text-[#eadbc4]
-                                 hover:bg-[#4a3523]
-                                 cursor-pointer"
+                                 hover:bg-[#4a3523]"
                     >
                       <Plus size={14} />
                     </button>
 
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="ml-auto text-[#eadbc4]/70
-                                 hover:text-red-400
-                                 cursor-pointer"
+                      className="ml-auto text-[#eadbc4]/70 hover:text-red-400"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -131,18 +126,14 @@ export default function CartDrawer({ open, onClose }: Props) {
         <div className="border-t border-[#e6cfa7]/20 px-5 py-4 space-y-3">
           <div className="flex items-center justify-between text-sm">
             <span className="text-[#eadbc4]">Total</span>
-            <span className="text-[#fdfaf6] font-bold">
-              ₹{totalPrice}
-            </span>
+            <span className="text-[#fdfaf6] font-bold">₹{totalPrice}</span>
           </div>
 
           <button
             onClick={handleCheckout}
             className="w-full rounded-lg bg-[#e6cfa7]
                        py-3 text-sm font-bold text-[#3b2a1a]
-                       hover:bg-[#dcc39a]
-                       transition
-                       cursor-pointer"
+                       hover:bg-[#dcc39a]"
           >
             Checkout
           </button>
