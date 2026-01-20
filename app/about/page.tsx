@@ -1,12 +1,12 @@
-import AboutPage from "@/components/About"; 
+import About from "@/components/About";  // Function name 'About' hai
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export default function Page() {
+export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <AboutPage />
+      <About />
       <Footer />
     </>
   );
