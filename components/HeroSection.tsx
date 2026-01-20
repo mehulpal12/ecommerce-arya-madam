@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('/hero-craft-supplies.jpg'), url('/assets/herobg3.jpeg')",
+            "url('/hero-craft-supplies.jpg'), url('/assets/herobg4.jpeg')",
           backgroundBlendMode: 'multiply',
           animation: 'depthMove 50s ease-in-out infinite alternate',
         }}
@@ -108,7 +108,7 @@ const Hero: React.FC = () => {
             </div>
 
             {/* FEATURES — slightly higher */}
-            <div className="flex flex-wrap gap-12 mt-8">
+           <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-8">
               {[Shield, Truck, Headphones].map((Icon, i) => (
                 <div
                   key={i}
