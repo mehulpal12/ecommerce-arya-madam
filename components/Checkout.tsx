@@ -26,7 +26,7 @@ export default function CheckoutPage() {
     const productText = cartItems
       .map(
         (p) =>
-          `• ${p.name} × ${p.quantity} = ₹${p.price * p.quantity}`
+          `• ${p.title} × ${p.quantity} = ₹${p.price * p.quantity}`
       )
       .join('\n');
 
@@ -140,13 +140,13 @@ Address: ${street}, ${city}, ${pincode}
                   <div className="w-20 h-20 rounded-xl overflow-hidden border border-[#e6cfa7]/30">
                     <img
                       src={p.image}
-                      alt={p.name}
+                      alt={p.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
 
                   <div className="flex-1">
-                    <p className="font-medium text-[#fdfaf6]">{p.name}</p>
+                    <p className="font-medium text-[#fdfaf6]">{p.title}</p>
                     <p className="text-sm opacity-70">
                       ₹{p.price} × {p.quantity}
                     </p>
