@@ -8,30 +8,35 @@ export default function HomePopup() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(true);
-    }, 1000); // 1 second delay
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  const closePopup = () => {
+    setShow(false);
+  };
+
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
       <div className="relative w-[90%] max-w-md rounded-xl overflow-hidden shadow-2xl">
 
-        {/* Background Image */}
+        {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/popup-bg.jpg')" }}
         />
         <div className="absolute inset-0 bg-white/75" />
 
-        {/* Close Button */}
+        {/* ❌ CLOSE ICON — IMPORTANT FIX */}
         <button
-          onClick={() => setShow(false)}
-          className="absolute top-3 right-3 z-10 h-8 w-8 rounded-full bg-white text-black shadow"
+          type="button"
+          onClick={closePopup}
+          className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg cursor-pointer"
         >
-          ✕
+          <span className="text-xl leading-none">×</span>
         </button>
 
         {/* Content */}
