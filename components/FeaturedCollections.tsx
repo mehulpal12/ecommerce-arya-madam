@@ -66,26 +66,14 @@ export default function FeaturedCollections() {
 
         {/* Heading */}
         <div data-animate="card" className="mb-16 text-center">
-          <span
-            className="inline-block mb-6 px-6 py-2
-                       border border-[#cbb79a]
-                       rounded-full text-[#8a6a44]
-                       tracking-widest uppercase text-xs"
-          >
-            Our Heritage
-          </span>
+          
 
-          <h2 className="text-4xl md:text-5xl font-bold text-[#2b1d12]">
+          <h2 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
             Featured Collections
           </h2>
 
-          <div className="my-6 text-[#cbb79a] tracking-widest">
-            ───── ✦ ─────
-          </div>
-
-          <p className="mx-auto max-w-3xl text-[#5c4a3a] text-lg leading-relaxed">
-            Curated selections of timeless materials crafted for artisans
-            who value tradition, precision, and quality.
+          <p className="mx-auto max-w-3xl mt-4 text-black text-lg leading-relaxed">
+            Curated selections of professional-grade materials for every creative need
           </p>
         </div>
 

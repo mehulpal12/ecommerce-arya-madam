@@ -70,24 +70,22 @@ const NewsletterSubscription = () => {
         {/* Badge */}
         <span
           className="inline-block mb-8 px-8 py-2 border border-[#e6cfa7]/60 rounded-full
-                     text-[#e6cfa7] tracking-widest uppercase text-xs"
+                     text-[#F4A261] tracking-widest uppercase text-xs"
         >
-          Handcrafted Circle
+          Exclusive Offer
         </span>
 
         {/* Heading */}
         <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf6] mb-6">
-          Join Our{" "}
-          <span className="text-[#e6cfa7]">Antique Craft Society</span>
+          Join Our Professional Network
         </h2>
 
         <div className="mb-8 text-[#e6cfa7] tracking-widest">
-          ───── ✦ ─────
+          
         </div>
 
-        <p className="text-[#eadbc4] text-lg mb-12 max-w-3xl mx-auto">
-          Receive timeless inspirations, artisan insights, and early access to
-          our handcrafted collections.
+        <p className="text-white text-lg mb-12 max-w-3xl mx-auto">
+          Subscribe to receive exclusive offers, industry insights, and early access to new collections. Get 10% off your first order.
         </p>
 
         {/* Form */}
@@ -103,7 +101,7 @@ const NewsletterSubscription = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email address"
             className="flex-1 px-6 py-4 bg-[#3b2a1a]/70 border border-[#e6cfa7]/40
-                       rounded-lg text-[#fdfaf6] placeholder:text-[#eadbc4]/60
+                       rounded-lg text-white placeholder:text-[#eadbc4]/60
                        focus:outline-none focus:border-[#e6cfa7]
                        disabled:opacity-50"
           />
@@ -115,7 +113,7 @@ const NewsletterSubscription = () => {
               ${
                 joined
                   ? "bg-green-600 text-white cursor-default"
-                  : "bg-[#e6cfa7] text-[#3b2a1a] hover:bg-[#dcc39a] cursor-pointer"
+                  : "bg-[#e6cfa7] text-white hover:bg-[#dcc39a] cursor-pointer"
               }
               disabled:opacity-60
             `}
@@ -145,12 +143,12 @@ const NewsletterSubscription = () => {
         )}
 
         {/* Privacy */}
-        <p className="text-[#eadbc4]/80 text-sm">
-          By joining, you agree to our{" "}
-          <a href="/privacy-policy" className="text-[#e6cfa7] underline">
+        <p className="text-white text-sm">
+          By subscribing, you agree to our {" "} 
+          <a href="/privacy-policy" className="text-white underline">
             Privacy Policy
           </a>
-          .
+           &nbsp;and consent to receive updates from our company.
         </p>
       </div>
     </section>

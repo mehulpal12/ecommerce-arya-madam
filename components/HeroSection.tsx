@@ -1,11 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Shield,
-  Truck,
-  Headphones,
-} from 'lucide-react';
+import { Shield, Truck, Headphones } from 'lucide-react';
 import Link from 'next/link';
 
 const Hero: React.FC = () => {
@@ -35,7 +31,7 @@ const Hero: React.FC = () => {
       ref={heroRef}
       className="relative min-h-screen pb-28 sm:pb-20 font-serif overflow-hidden"
     >
-      {/* Background */}
+      {/* BACKGROUND */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -45,59 +41,63 @@ const Hero: React.FC = () => {
           animation: 'depthMove 50s ease-in-out infinite alternate',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2b1d12]/90 via-[#4a3323]/70 to-[#6a4a34]/50" />
-        <div className="absolute inset-0 shadow-[inset_0_0_160px_rgba(0,0,0,0.75)]" />
+        {/* CLEAN DARK OVERLAY */}
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.65)]" />
       </div>
 
       {show && (
         <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28">
-          {/* Badge */}
+
+          {/* BADGE */}
           <span
-            className="inline-block mb-8 px-6 py-2 border border-[#e6cfa7]/50
-                       rounded-full text-[#e6cfa7] uppercase text-xs tracking-widest
+            className="inline-block mb-8 px-6 py-2 border border-white/40
+                       rounded-full text-white uppercase text-sm tracking-widest
                        opacity-0 animate-[paperReveal_1.4s_0.2s_ease-out_forwards]"
           >
-            Timeless Craftsmanship
+            Premium Craft Supplies
           </span>
 
-          {/* Heading */}
+          {/* HEADING */}
           <h1
             className="text-5xl md:text-6xl lg:text-7xl font-bold max-w-3xl mb-8
                        opacity-0 animate-[inkSettle_1.6s_0.4s_ease-out_forwards]"
           >
-            <span className="text-[#fdfaf6]">Arya Madam</span>
+            <span className="text-white">Arya Madam</span>
             <br />
-            <span className="text-[#e6cfa7]">Craft Supplies</span>
+            <span className="text-[#e6f0f6]">Craft Supplies</span>
           </h1>
 
-          {/* Description */}
+          {/* DESCRIPTION */}
           <p
-            className="text-[#eadbc4] text-lg max-w-2xl mb-14
+            className="text-[#f1f6fa] text-lg max-w-2xl mb-14
                        opacity-0 animate-[paperReveal_1.4s_0.6s_ease-out_forwards]"
           >
             Professional-grade materials inspired by heritage craftsmanship.
             Carefully curated for artisans who value tradition and quality.
           </p>
 
-          {/* CTA */}
+          {/* CTA BUTTONS */}
           <div
             className="flex flex-col sm:flex-row gap-6 mb-12
                        opacity-0 animate-[paperReveal_1.4s_0.8s_ease-out_forwards]"
           >
+            {/* Explore Collection → BLACK TEXT */}
             <Link
               href="/shop"
-              className="px-10 py-4 bg-[#e6cfa7] text-[#3b2a1a]
+              className="px-10 py-4 bg-white text-black
                          font-semibold rounded-lg shadow-xl
-                         hover:bg-[#dcc39a] transition-colors"
+                         hover:bg-[#eef6fb] transition-colors"
             >
               Explore Collection
             </Link>
 
+            {/* View Catalog → WHITE TEXT */}
             <Link
               href="/collections"
-              className="px-10 py-4 border border-[#e6cfa7]/60
-                         text-[#fdfaf6] rounded-lg
-                         hover:bg-[#4a3323]/40 transition-colors"
+              className="px-10 py-4 border border-white/60
+                         text-white rounded-lg
+                         hover:bg-white/10 transition-colors"
             >
               View Catalog
             </Link>
@@ -113,14 +113,14 @@ const Hero: React.FC = () => {
                 style={{ animationDelay: `${1 + i * 0.15}s` }}
               >
                 <div
-                  className="w-12 h-12 border border-[#e6cfa7]/40
-                             bg-[#4a3323]/60 rounded-lg
+                  className="w-12 h-12 border border-white/40
+                             bg-white/10 rounded-lg
                              flex items-center justify-center"
                 >
-                  <Icon className="w-5 h-5 text-[#e6cfa7]" />
+                  <Icon className="w-5 h-5 text-white" />
                 </div>
 
-                <span className="text-[#eadbc4]">
+                <span className="text-white">
                   {['Quality Assured', 'Fast Delivery', 'Expert Support'][i]}
                 </span>
               </div>

@@ -108,11 +108,11 @@ export default function ContactPage() {
           data-animate="antique"
           className="bg-white rounded-xl p-10 border"
         >
-          <h2 className="text-3xl font-bold text-[rgb(44_95_124)] mb-3">
+          <h2 className="text-4xl font-bold text-[rgb(44_95_124)] mb-6">
             Send Us a Message
           </h2>
 
-          <p className="text-black text-sm mb-8 font-medium">
+          <p className="text-black text-lg mb-8 font-medium">
             Fill out the form below and our team will get back to you within 24 hours.
             We're here to help with any questions about our products, orders, or services.
           </p>
@@ -216,7 +216,7 @@ export default function ContactPage() {
             data-animate="antique"
             className="bg-white rounded-xl p-6 border"
           >
-            <h3 className="text-lg font-semibold text-[rgb(44_95_124)] mb-3">
+            <h3 className="text-xl font-semibold text-[rgb(44_95_124)] mb-3">
               Follow Us
             </h3>
             <p className="text-black mb-3">

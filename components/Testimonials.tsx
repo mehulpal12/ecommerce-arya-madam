@@ -88,21 +88,14 @@ const Testimonials: FC = () => {
       <div className="relative max-w-7xl mx-auto">
         {/* Heading */}
         <div data-animate="card" className="text-center mb-20">
-          <span className="inline-block mb-6 px-6 py-2 rounded-full border border-black/30 text-black tracking-widest uppercase text-xs">
-            Testimonials
-          </span>
+          
 
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)] mb-4">
             Trusted by Professionals
           </h2>
 
-          <div className="mb-6 text-black tracking-widest">
-            ───── ✦ ─────
-          </div>
-
           <p className="text-black/80 text-lg max-w-3xl mx-auto">
-            Hear from artisans and designers who rely on our materials
-            to bring timeless creations to life.
+            See what industry experts say about our materials and service
           </p>
         </div>
 

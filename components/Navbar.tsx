@@ -144,8 +144,8 @@ export default function Navbar() {
                   onKeyDown={handleSearch}
                   placeholder="Search products..."
                   className="absolute right-0 mt-3 w-64 px-4 py-2 rounded-lg
-                             bg-[#2b1d12] border border-[#e6cfa7]/40
-                             text-[#fdfaf6] placeholder:text-[#eadbc4]/60
+                             bg-white border border-[#e6cfa7]/40
+                             text-black placeholder:text-[#eadbc4]/60
                              shadow-xl outline-none"
                 />
               )}

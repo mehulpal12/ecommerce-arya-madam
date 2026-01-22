@@ -35,11 +35,11 @@ export default function BestSellers() {
         {/* Heading */}
         <div className="mb-14 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-[#2b1d12]">
+            <h2 className="text-5xl font-bold text-[rgb(44_95_124)]">
               Best Sellers
             </h2>
-            <p className="mt-2 text-[#5c4a3a]">
-              Timeless pieces cherished by artisans
+            <p className="mt-3 text-black">
+              Premium products trusted by professionals
             </p>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function BestSellers() {
                 {product.badge && (
                   <span className="absolute left-4 top-4 rounded
                                    bg-[#e6cfa7] px-3 py-1
-                                   text-xs font-semibold text-[#3b2a1a]">
+                                   text-xs font-semibold text-black">
                     {product.badge}
                   </span>
                 )}
@@ -84,7 +84,7 @@ export default function BestSellers() {
                     />
                   </div>
 
-                  <h3 className="text-sm font-semibold text-[#2b1d12]">
+                  <h3 className="text-sm font-semibold text-black">
                     {product.name}
                   </h3>
                 </Link>
@@ -99,11 +99,11 @@ export default function BestSellers() {
 
                 {/* Price */}
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="font-semibold text-[#2b1d12]">
+                  <span className="font-semibold text-2xl text-[rgb(44_95_124)]">
                     ₹{product.price}
                   </span>
                   {product.oldPrice && (
-                    <span className="text-sm text-[#5c4a3a]/60 line-through">
+                    <span className="text-sm text-gray-400 line-through">
                       ₹{product.oldPrice}
                     </span>
                   )}

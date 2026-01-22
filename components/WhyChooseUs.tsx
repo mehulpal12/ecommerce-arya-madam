@@ -53,25 +53,14 @@ export default function WhyChooseUs() {
 
         {/* Heading */}
         <div data-animate="card" className="mb-20 text-center">
-          <span
-            className="inline-block mb-6 px-6 py-2 rounded-full
-                       border border-white/40
-                       text-white tracking-widest uppercase text-xs"
-          >
-            Our Promise
-          </span>
+          
 
           <h2 className="text-4xl md:text-5xl font-bold text-white">
             Why Choose Us
           </h2>
 
-          <div className="my-6 text-white tracking-widest">
-            ───── ✦ ─────
-          </div>
-
-          <p className="mx-auto max-w-3xl text-white text-lg leading-relaxed">
-            A heritage of excellence built on trust, craftsmanship, and
-            unwavering commitment to quality.
+          <p className="mx-auto max-w-3xl text-white mt-4 text-lg leading-relaxed">
+            Professional-grade materials backed by industry expertise and exceptional service
           </p>
         </div>
 

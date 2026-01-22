@@ -110,25 +110,16 @@ const HowItWorks: React.FC = () => {
 
         {/* Header */}
         <div data-animate="card" className="text-center mb-20">
-          <span
-            className="inline-block mb-6 px-6 py-2
-                       rounded-full border border-black/30
-                       text-black tracking-widest uppercase text-xs"
-          >
-            Our Process
-          </span>
+          
 
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
             How It Works
           </h2>
 
-          <div className="mb-6 text-black tracking-widest">
-            ───── ✦ ─────
-          </div>
+         
 
           <p className="text-black/80 text-lg md:text-xl max-w-3xl mx-auto">
-            A seamless journey from selection to delivery, designed with
-            precision, care, and timeless craftsmanship.
+            Streamlined ordering process designed for professional efficiency
           </p>
         </div>
 
