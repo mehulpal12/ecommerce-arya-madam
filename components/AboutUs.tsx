@@ -142,19 +142,19 @@ export default function AboutUs() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <span className="inline-block mb-6 px-6 py-2 border border-[#e6cfa7]/60 rounded-full text-[#e6cfa7] text-xs tracking-widest">
+            <span className="inline-block mb-6 px-6 py-2 border border-[#e6cfa7]/60 rounded-full text-white text-xs tracking-widest">
               OUR STORY
             </span>
 
             <h1 className="text-4xl md:text-6xl font-bold mb-6">About Us</h1>
 
-            <div className="mb-6 text-[#e6cfa7] tracking-[0.3em] text-sm md:text-base">
+            <div className="mb-6 text-white tracking-[0.3em] text-sm md:text-base">
               ───── ✦ HANDCRAFTED • TRUSTED • TIMELESS ✦ ─────
             </div>
-
-            <p className="text-[#eadbc4] text-lg">
+``
+            <p className="text-white text-lg">
               Blending tradition, quality, and innovation, we deliver thoughtfully crafted materials that help creators<br />
-              build lasting, beautiful, and meaningful work. <span className="text-[#e6cfa7] font-semibold">2010</span>
+              build lasting, beautiful, and meaningful work. <span className="text-white font-semibold">2010</span>
             </p>
           </motion.div>
         </div>
@@ -169,16 +169,16 @@ export default function AboutUs() {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 1 }}
           >
-            <h2 className="text-3xl font-bold mb-6">Our Story</h2>
+            <h2 className="text-3xl font-bold text-[rgb(44_95_124)] mb-6">Our Story</h2>
             <p className="text-black mb-6 leading-relaxed">
   Arya Madam Art and Craft Services is a purpose-driven initiative founded by
-  <span className="text-[#e6cfa7] font-semibold"> Arya Madam</span>, a highly respected
+  <span className="text-black font-semibold"> Arya Madam</span>, a highly respected
   educator and master craftsperson with over
-  <span className="text-[#e6cfa7] font-semibold"> 30 years of experience</span>
+  <span className="text-black font-semibold"> 30 years of experience</span>
   in art and craft education.
 </p>
 
-<p className="text-[#eadbc4] mb-6 leading-relaxed">
+<p className="text-black mb-6 leading-relaxed">
   Her journey began in <span className="font-semibold">Tumsar, Maharashtra</span>,
   where she spent 15 years nurturing creativity, discipline, and artistic excellence
   among students. She later continued her mission in
@@ -187,21 +187,21 @@ export default function AboutUs() {
   as an Art and Craft Instructor.
 </p>
 
-<p className="text-[#eadbc4] mb-6 leading-relaxed">
+<p className="text-black mb-6 leading-relaxed">
   Throughout her career, Arya Madam became known not only for her technical expertise,
   but also for her commitment to holistic education—building confidence, character,
   and self-expression through creative learning.
 </p>
 
-<p className="text-[#eadbc4] mb-6 leading-relaxed">
+<p className="text-black mb-6 leading-relaxed">
   After retiring from formal school teaching, she dedicated herself to
-  <span className="text-[#e6cfa7] font-semibold"> community upliftment</span>.
+  <span className="text-black font-semibold"> community upliftment</span>.
   She initiated free education and awareness programs in
   <span className="font-semibold"> Rudra Colony near TIT School, Bhiwani</span>,
   with a strong focus on girls’ education, women empowerment, and social awareness.
 </p>
 
-<p className="text-[#eadbc4] mb-6 leading-relaxed">
+<p className="text-black mb-6 leading-relaxed">
   This vision was deeply shared with her late husband,
   <span className="font-semibold"> Lt. Shri Ramakant Arya Ji</span>,
   a dedicated music teacher who believed in uplifting society through education
@@ -209,7 +209,7 @@ export default function AboutUs() {
   carried forward their shared mission with even greater resolve.
 </p>
 
-<p className="text-[#eadbc4] leading-relaxed">
+<p className="text-black leading-relaxed">
   At the heart of Arya Madam Art and Craft Services lies a powerful vision—to empower
   girls, boys, and young individuals through structured degree and diploma programs
   in art and craft. By combining hands-on training, mentorship, and value-based learning,
@@ -253,54 +253,69 @@ export default function AboutUs() {
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <div className="text-4xl font-bold text-[#eadbc4] mb-2">
+              <div className="text-5xl font-bold text-[rgb(44_95_124)] mb-2">
                 <AnimatedCounter value={stat.value} />
               </div>
-              <p className="text-[#e6cfa7]">{stat.label}</p>
+              <p className="text-black">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
       {/* ================= VALUES ================= */}
-      <section className="py-28 px-6 max-w-7xl mx-auto">
-        <h2 className="text-center text-4xl font-bold mb-20">Our Values</h2>
+      <section className="py-10 px-6 max-w-7xl bg-white mx-auto">
+  <h2 className="text-center text-4xl text-[rgb(44_95_124)] font-bold mb-4">
+    Our Values
+  </h2>
 
+  <p className="text-center text-black text-lg mb-20">
+    The principles that guide everything we do
+  </p>
+
+  <motion.div
+    className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10"
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: false }}
+    variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
+  >
+    {values.map((value, i) => {
+      const Icon = value.icon;
+      return (
         <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false }}
-          variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
+          key={i}
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
         >
-          {values.map((value, i) => {
-            const Icon = value.icon;
-            return (
-              <motion.div
-                key={i}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-              >
-                <ThreeDCard>
-                  <div className="p-8 bg-[#3b2a1a]/80 rounded-2xl text-center border border-[#e6cfa7]/30">
-                    <div className="mx-auto mb-6 w-14 h-14 flex items-center justify-center bg-[#2b1d12] rounded-xl">
-                      <Icon className="text-[#e6cfa7]" />
-                    </div>
-                    <h3 className="font-semibold mb-2">{value.title}</h3>
-                    <p className="text-sm text-[#eadbc4]">{value.description}</p>
-                  </div>
-                </ThreeDCard>
-              </motion.div>
-            );
-          })}
+          <ThreeDCard>
+            <div className="p-8 bg-white rounded-2xl text-center border border-[#e6cfa7]/30">
+              <div className="mx-auto mb-6 w-14 h-14 flex items-center justify-center bg-[rgb(44_95_124)] rounded-xl">
+                <Icon className="text-[#e6cfa7]" />
+              </div>
+              <h3 className="font-semibold text-[rgb(44_95_124)] mb-2">
+                {value.title}
+              </h3>
+              <p className="text-sm text-black">
+                {value.description}
+              </p>
+            </div>
+          </ThreeDCard>
         </motion.div>
-      </section>
+      );
+    })}
+  </motion.div>
+</section>
+
 
       {/* ================= TEAM ================= */}
-      <section className="py-28 px-6 max-w-7xl mx-auto">
-        <h2 className="text-center text-4xl font-bold mb-20">Meet Our Team</h2>
+      <section className="py-28 px-6 max-w-7xl bg-white mx-auto">
+        <h2 className="text-center text-4xl font-bold text-[rgb(44_95_124)] mb-4">Meet Our Team</h2>
+
+        <p className="text-center text-black text-lg mb-16">
+    Passionate professionals dedicated to your creative success
+  </p>
 
         <motion.div
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12"
@@ -327,9 +342,9 @@ export default function AboutUs() {
                       className="object-cover"
                     />
                   </div>
-                  <h3 className="mt-6 font-semibold">{member.name}</h3>
-                  <p className="text-[#e6cfa7] text-sm">{member.role}</p>
-                  <p className="text-[#eadbc4] text-sm mt-2">{member.description}</p>
+                  <h3 className="mt-6 text-[rgb(44_95_124)] text-xl font-semibold mb-2 ">{member.name}</h3>
+                  <p className="text-black text-sm mb-3">{member.role}</p>
+                  <p className="text-black text-sm mt-2">{member.description}</p>
                 </div>
               </ThreeDCard>
             </motion.div>
@@ -338,30 +353,30 @@ export default function AboutUs() {
       </section>
 
       {/* ================= CTA ================= */}
-      <section className="py-24 px-6">
+      <section className="py-18 pb-32 bg-white px-6">
         <ThreeDCard>
           <motion.div
-            className="max-w-4xl mx-auto text-center bg-[#3b2a1a]/80 p-16 rounded-3xl border border-[#e6cfa7]/40"
+            className="max-w-4xl mx-auto text-center bg-[rgb(44_95_124)] p-16 rounded-3xl border border-[#e6cfa7]/40"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <Heart className="mx-auto mb-6 text-[#e6cfa7]" />
+            <Heart className="mx-auto mb-6 text-black" />
             <h2 className="text-3xl font-bold mb-6">
               Join Our Creative Community
             </h2>
-            <p className="text-[#eadbc4] mb-10">
+            <p className="text-black mb-10">
               Be part of a growing community of creators.
             </p>
 
             <div className="flex justify-center gap-6">
-              <Link href="/newsletter" className="px-6 py-3 border rounded-lg">
-                <Mail className="inline mr-2" /> Subscribe
+              <Link href="/newsletter" className="px-6 py-3 border bg-white text-[rgb(44_95_124)] rounded-lg">
+                <Mail className="inline mr-2" /> Subscribe to Newsletter
               </Link>
               <Link
                 href="/shop"
-                className="px-6 py-3 bg-[#e6cfa7] text-[#3b2a1a] rounded-lg"
+                className="px-6 py-3 bg-[#E76F51] text-white rounded-lg"
               >
                 <ShoppingBag className="inline mr-2" /> Start Shopping
               </Link>

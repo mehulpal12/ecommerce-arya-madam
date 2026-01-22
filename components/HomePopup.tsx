@@ -41,11 +41,11 @@ export default function HomePopup() {
 
         {/* Content */}
         <div className="relative z-10 p-6 text-center">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold text-black">
             10% off 54 collections
           </h2>
 
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2 text-sm text-black">
             Sign up for Special Discount Coupons
           </p>
 

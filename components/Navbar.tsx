@@ -83,7 +83,7 @@ export default function Navbar() {
       {/* ===== NAVBAR ===== */}
       <div
         className={`sticky top-0 z-50 transition-all
-        ${scrolled ? "bg-black/80 backdrop-blur-md" : "bg-[#2b1d12]/60"}
+        ${scrolled ? "bg-white backdrop-blur-md" : "bg-white"}
         border-b border-[#e6cfa7]/20`}
       >
         <nav className="flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
@@ -93,11 +93,11 @@ export default function Navbar() {
             onClick={(e) => handleNavClick(e, "Home")}
             className="flex items-center gap-3"
           >
-            <div className="w-12 h-12 bg-[#4a3323]/80 rounded-xl border border-[#e6cfa7]/40 flex items-center justify-center">
-              <Palette className="w-7 h-7 text-[#e6cfa7]" />
+            <div className="w-12 h-12 bg-[rgb(44_95_124)] rounded-xl border border-[#e6cfa7]/40 flex items-center justify-center">
+              <Palette className="w-7 h-7 text-white" />
             </div>
-            <span className="text-[#fdfaf6] text-lg font-bold">
-              Arya Madam
+            <span className="text-[rgb(44_95_124)] text-lg font-bold">
+              Arya Madam Craft Supplies
             </span>
           </Link>
 
@@ -118,7 +118,7 @@ export default function Navbar() {
                   key={item}
                   href={href}
                   onClick={(e) => handleNavClick(e, item)}
-                  className="text-[#eadbc4] hover:text-[#fdfaf6] transition"
+                  className="text-black hover:text-[#E76F51] transition"
                 >
                   {item}
                 </Link>
@@ -131,7 +131,7 @@ export default function Navbar() {
             {/* SEARCH */}
             <div className="relative">
               <Search
-                className="w-6 h-6 text-[#eadbc4] cursor-pointer hover:text-[#fdfaf6]"
+                className="w-6 h-6 text-black cursor-pointer "
                 onClick={() => setSearchOpen((p) => !p)}
               />
 
@@ -156,7 +156,7 @@ export default function Navbar() {
               onClick={() => setCartOpen(true)}
               className="relative hover:scale-105 transition"
             >
-              <ShoppingCart className="w-6 h-6 text-[#eadbc4]" />
+              <ShoppingCart className="w-6 h-6 text-black" />
               {totalItems > 0 && (
                 <span
                   className="absolute -top-2 -right-2 h-5 w-5 rounded-full
