@@ -16,7 +16,6 @@ const NewsletterSubscription = () => {
 
   useEffect(() => {
     const elements = document.querySelectorAll('[data-animate="card"]');
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) =>
@@ -59,97 +58,122 @@ const NewsletterSubscription = () => {
   };
 
   return (
-    <section className="relative py-24 px-6 font-serif overflow-hidden
-                        bg-gradient-to-b from-[#0f2f3a] to-[#1A4A5E]">
-
-      {/* Content */}
+    <section
+      className="relative py-24 font-serif overflow-hidden
+                 bg-gradient-to-b from-[#0f2f3a] to-[#1A4A5E]"
+    >
       <div
         data-animate="card"
-        className="relative max-w-4xl mx-auto text-center"
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
       >
-        {/* Badge */}
-        <span
-          className="inline-block mb-8 px-8 py-2 border border-[#e6cfa7]/60 rounded-full
-                     text-[#F4A261] tracking-widest uppercase text-xs"
-        >
-          Exclusive Offer
-        </span>
+        <div className="text-center">
+          {/* Badge */}
+          <span
+            className="
+              inline-flex items-center
+              px-5 py-2
+              bg-[#F4A261]/20
+              border border-[#F4A261]/40
+              rounded-md
+              mb-6
+              text-sm font-medium
+              text-[#F4A261]
+              tracking-wider
+              uppercase
+            "
+          >
+            Exclusive Offer
+          </span>
 
-        {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf6] mb-6">
-          Join Our Professional Network
-        </h2>
+          {/* Heading */}
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+            Join Our Professional Network
+          </h2>
 
-        <div className="mb-8 text-[#e6cfa7] tracking-widest">
-          
+          {/* Subtitle */}
+          <p className="text-white/80 text-base mb-10 max-w-2xl mx-auto">
+            Subscribe to receive exclusive offers, industry insights, and early
+            access to new collections. Get 10% off your first order.
+          </p>
+
+          {/* Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-8"
+          >
+            <input
+              type="email"
+              required
+              disabled={joined}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              className="
+                flex-1
+                px-6 py-4
+                bg-white/10 backdrop-blur-sm
+                border border-white/30
+                rounded-md
+                text-white text-sm
+                placeholder-white/60
+                focus:outline-none
+                focus:border-[#F4A261]
+                transition-colors
+                disabled:opacity-50
+              "
+            />
+
+            <button
+              type="submit"
+              disabled={loading || joined}
+              className="
+                px-10 py-4
+                bg-[#F4A261]
+                text-white
+                font-semibold
+                rounded-md
+                hover:bg-[#E76F51]
+                transition-all duration-300
+                whitespace-nowrap
+                cursor-pointer
+                disabled:opacity-50
+                disabled:cursor-not-allowed
+                tracking-wide
+              "
+            >
+              {loading ? "Joining…" : joined ? "Joined ✓" : "Join Now"}
+            </button>
+          </form>
+
+          {/* Message */}
+          {message && (
+            <div
+              data-animate="card"
+              className={`flex items-center justify-center gap-3 mb-6 p-4 rounded-lg border
+                          animate-fadeIn ${
+                            message.type === "success"
+                              ? "bg-green-900/30 border-green-400/40 text-green-100"
+                              : "bg-red-900/30 border-red-400/40 text-red-100"
+                          }`}
+            >
+              {message.type === "success" ? (
+                <CheckCircle className="w-6 h-6 text-green-400" />
+              ) : (
+                <XCircle className="w-6 h-6 text-red-400" />
+              )}
+              <span>{message.text}</span>
+            </div>
+          )}
+
+          {/* ✅ BOTTOM TEXT — EXACT SELECTOR */}
+          <p className="text-white/60 text-xs mt-6">
+            By subscribing, you agree to our{" "}
+            <a href="/privacy-policy" className="underline">
+              Privacy Policy
+            </a>{" "}
+            and consent to receive updates from our company.
+          </p>
         </div>
-
-        <p className="text-white text-lg mb-12 max-w-3xl mx-auto">
-          Subscribe to receive exclusive offers, industry insights, and early access to new collections. Get 10% off your first order.
-        </p>
-
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto mb-8"
-        >
-          <input
-            type="email"
-            required
-            disabled={joined}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email address"
-            className="flex-1 px-6 py-4 bg-[#3b2a1a]/70 border border-[#e6cfa7]/40
-                       rounded-lg text-white placeholder:text-[#eadbc4]/60
-                       focus:outline-none focus:border-[#e6cfa7]
-                       disabled:opacity-50"
-          />
-
-          <button
-            type="submit"
-            disabled={loading || joined}
-            className={`px-10 py-4 font-semibold rounded-lg shadow-lg transition-all duration-500
-              ${
-                joined
-                  ? "bg-green-600 text-white cursor-default"
-                  : "bg-[#e6cfa7] text-white hover:bg-[#dcc39a] cursor-pointer"
-              }
-              disabled:opacity-60
-            `}
-          >
-            {loading ? "Joining…" : joined ? "Joined ✓" : "Join Now"}
-          </button>
-        </form>
-
-        {/* Message */}
-        {message && (
-          <div
-            data-animate="card"
-            className={`flex items-center justify-center gap-3 mb-6 p-4 rounded-lg border
-                        animate-fadeIn ${
-                          message.type === "success"
-                            ? "bg-green-900/30 border-green-400/40 text-green-100"
-                            : "bg-red-900/30 border-red-400/40 text-red-100"
-                        }`}
-          >
-            {message.type === "success" ? (
-              <CheckCircle className="w-6 h-6 text-green-400" />
-            ) : (
-              <XCircle className="w-6 h-6 text-red-400" />
-            )}
-            <span>{message.text}</span>
-          </div>
-        )}
-
-        {/* Privacy */}
-        <p className="text-white text-sm">
-          By subscribing, you agree to our {" "} 
-          <a href="/privacy-policy" className="text-white underline">
-            Privacy Policy
-          </a>
-           &nbsp;and consent to receive updates from our company.
-        </p>
       </div>
     </section>
   );

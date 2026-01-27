@@ -29,25 +29,19 @@ const Hero: React.FC = () => {
   return (
     <div
       ref={heroRef}
-      className="relative min-h-screen pb-28 sm:pb-20 font-serif overflow-hidden"
+      className="relative min-h-screen font-serif overflow-hidden"
     >
       {/* BACKGROUND */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center opacity-30"
         style={{
           backgroundImage:
             "url('/hero-craft-supplies.jpg'), url('/assets/herobg5.jpeg')",
-          backgroundBlendMode: 'multiply',
-          animation: 'depthMove 50s ease-in-out infinite alternate',
         }}
-      >
-        {/* CLEAN DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.65)]" />
-      </div>
+      />
 
       {show && (
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-32">
 
           {/* BADGE */}
           <span
@@ -60,17 +54,18 @@ const Hero: React.FC = () => {
 
           {/* HEADING */}
           <h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold max-w-3xl mb-8
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6
+                       leading-tight tracking-tight max-w-3xl
                        opacity-0 animate-[inkSettle_1.6s_0.4s_ease-out_forwards]"
           >
-            <span className="text-white">Arya Madam</span>
+            <span>Arya Madam</span>
             <br />
-            <span className="text-[#e6f0f6]">Craft Supplies</span>
+            <span className="text-[#F4A261]">Craft Supplies</span>
           </h1>
 
           {/* DESCRIPTION */}
           <p
-            className="text-[#f1f6fa] text-lg max-w-2xl mb-14
+            className="text-xl text-white/90 mb-12 max-w-2xl leading-relaxed
                        opacity-0 animate-[paperReveal_1.4s_0.6s_ease-out_forwards]"
           >
             Professional-grade materials inspired by heritage craftsmanship.
@@ -82,22 +77,26 @@ const Hero: React.FC = () => {
             className="flex flex-col sm:flex-row gap-6 mb-12
                        opacity-0 animate-[paperReveal_1.4s_0.8s_ease-out_forwards]"
           >
-            {/* Explore Collection → BLACK TEXT */}
+            {/* EXPLORE COLLECTION */}
             <Link
               href="/shop"
-              className="px-10 py-4 bg-white text-black
-                         font-semibold rounded-lg shadow-xl
-                         hover:bg-[#eef6fb] transition-colors"
+              className="inline-flex items-center justify-center px-10 py-4
+                         bg-[#F4A261] text-white font-semibold rounded-md
+                         hover:bg-[#E76F51] transition-all duration-300
+                         hover:shadow-2xl whitespace-nowrap tracking-wide"
             >
               Explore Collection
             </Link>
 
-            {/* View Catalog → WHITE TEXT */}
+            {/* VIEW CATALOG */}
             <Link
               href="/collections"
-              className="px-10 py-4 border border-white/60
-                         text-white rounded-lg
-                         hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-10 py-4
+                         bg-transparent text-white font-semibold rounded-md
+                         border-2 border-white/40
+                         hover:bg-white/10 hover:border-white
+                         transition-all duration-300
+                         whitespace-nowrap tracking-wide"
             >
               View Catalog
             </Link>
@@ -126,6 +125,7 @@ const Hero: React.FC = () => {
               </div>
             ))}
           </div>
+
         </div>
       )}
     </div>

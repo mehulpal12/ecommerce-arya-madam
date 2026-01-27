@@ -61,18 +61,16 @@ export default function FeaturedCollections() {
   }, []);
 
   return (
-    <section className="relative px-8 py-28 font-serif bg-white overflow-hidden">
-      <div className="mx-auto max-w-7xl">
+    <section className="py-24 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
-        <div data-animate="card" className="mb-16 text-center">
-          
-
-          <h2 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
+        <div data-animate="card" className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#2C5F7C] mb-4 tracking-tight">
             Featured Collections
           </h2>
 
-          <p className="mx-auto max-w-3xl mt-4 text-black text-lg leading-relaxed">
+          <p className="text-gray-600 text-base max-w-2xl mx-auto">
             Curated selections of professional-grade materials for every creative need
           </p>
         </div>
@@ -83,10 +81,9 @@ export default function FeaturedCollections() {
             <div
               key={index}
               data-animate="card"
-              className="group relative h-[280px] overflow-hidden rounded-2xl
-                         border border-black/10
-                         shadow-[0_20px_40px_rgba(0,0,0,0.08)]
-                         cursor-pointer bg-white"
+              className="group relative h-[280px] overflow-hidden rounded-lg
+                         cursor-pointer bg-white border border-black/10
+                         transition-all duration-500 hover:shadow-2xl"
             >
               {/* Image */}
               <Image
@@ -97,20 +94,12 @@ export default function FeaturedCollections() {
                            group-hover:scale-105"
               />
 
-              {/* Soft Overlay */}
-              <div
-                className="absolute inset-0 bg-gradient-to-t
-                           from-white/95 via-white/60 to-transparent"
-              />
+              {/* Soft light overlay (NOT blue) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/50 to-transparent" />
 
               {/* Content */}
-              <div className="absolute bottom-6 left-6 right-6">
-                <span
-                  className="mb-4 inline-block rounded
-                             bg-[#e6cfa7] px-4 py-1
-                             text-xs font-semibold tracking-wide
-                             text-[#3b2a1a]"
-                >
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <span className="mb-3 inline-block text-xs font-semibold tracking-wide text-gray-600">
                   {item.items}
                 </span>
 
@@ -118,15 +107,15 @@ export default function FeaturedCollections() {
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-sm text-[#5c4a3a]">
+                {/* Subtitle — readable, NO blue */}
+                <p className="text-gray-700 text-sm mb-4">
                   {item.subtitle}
                 </p>
 
                 <Link
                   href="#"
-                  className="mt-4 inline-flex items-center gap-2
-                             text-sm font-semibold
-                             text-[#8a6a44]
+                  className="inline-flex items-center gap-2
+                             text-sm font-semibold text-[#8a6a44]
                              hover:gap-3 transition-all duration-300"
                 >
                   Explore Collection →

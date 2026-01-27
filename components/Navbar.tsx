@@ -76,7 +76,7 @@ export default function Navbar() {
     }
   };
 
-  const navItems = ["Home", "Shop", "Collections", "About", "Contact"];
+  const navItems = ["Home", "Shop", "Collections", "Remedies", "Gallery", "About", "Contact"];
 
   return (
     <>
@@ -174,9 +174,9 @@ export default function Navbar() {
               className="md:hidden"
             >
               {menuOpen ? (
-                <X className="w-7 h-7 text-[#fdfaf6]" />
+                <X className="w-7 h-7 text-black" />
               ) : (
-                <Menu className="w-7 h-7 text-[#fdfaf6]" />
+                <Menu className="w-7 h-7 text-black" />
               )}
             </button>
           </div>
