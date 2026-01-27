@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Plus, X, Edit, Trash2, Search } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { ConfirmDialog } from "@/Components/ConfirmDialog";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
 interface Stock {

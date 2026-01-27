@@ -4,7 +4,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X, Plus, Upload, Video } from "lucide-react";
 import Image from "next/image";
-import CategoryDropdown from "@/Components/CategoryDropdown";
+import CategoryDropdown from "@/components/CategoryDropdown";
 import validator from "validator";
 import { toast } from "react-hot-toast";
 

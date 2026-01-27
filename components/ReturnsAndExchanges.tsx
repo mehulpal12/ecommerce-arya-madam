@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import TextReveal from '@/Components/TextReveal';
+import TextReveal from '@/components/TextReveal';
 
 const ReturnsExchangePage = () => {
   return (
