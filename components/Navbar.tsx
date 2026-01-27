@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/app/providers/CartProvider";
-import CartDrawer from "@/Components/CartDrawer";
+import CartDrawer from "@/components/CartDrawer";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

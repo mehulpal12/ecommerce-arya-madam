@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import CurtainReveal from '@/Components/CurtainReveal';
+import CurtainReveal from '@/components/CurtainReveal';
 
 const collections = [
   {

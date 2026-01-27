@@ -1,6 +1,6 @@
-import TermsOfService from "@/Components/TermsOfService"; 
-import Navbar from "@/Components/Navbar";
-import Footer from "@/Components/Footer";
+import TermsOfService from "@/components/TermsOfService"; 
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function Page() {
   return (
