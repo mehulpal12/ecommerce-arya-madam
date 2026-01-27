@@ -7,10 +7,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { products } from "@/lib/products";
 import { useCart } from "@/app/providers/CartProvider";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { ShoppingCart, ShoppingBag } from "lucide-react";
 
 export default function ProductPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const product = products.find(p => p.id === id);
   
@@ -32,6 +34,25 @@ export default function ProductPage() {
         });
       }
       setQuantity(1); // Reset quantity after adding
+    }
+  };
+
+  const handleProceedToCheckout = () => {
+    if (product) {
+      // Add to cart if not already added
+      if (!cartItem) {
+        for (let i = 0; i < quantity; i++) {
+          addToCart({
+            id: product.id,
+            title: product.name,
+            price: product.price,
+            image: product.images[0],
+            quantity: 1,
+          });
+        }
+      }
+      // Navigate to checkout
+      router.push('/checkout');
     }
   };
 
@@ -127,34 +148,48 @@ export default function ProductPage() {
 
               {/* Cart Section */}
               {!cartItem ? (
-                <div className="flex items-center gap-4 mb-6">
+                <div className="space-y-4 mb-6">
                   {/* Quantity Selector */}
-                  <div className="flex border border-[#e6cfa7]/40 rounded overflow-hidden">
+                  <div className="flex border border-[#e6cfa7]/40 rounded overflow-hidden w-fit">
                     <button 
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-4 py-2 hover:bg-[rgb(44_95_124)] transition"
+                      className="px-4 py-2 hover:bg-[#e6cfa7]/20 transition"
                     >
                       −
                     </button>
                     <span className="px-6 py-2 border-x border-[#e6cfa7]/40">{quantity}</span>
                     <button 
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-4 py-2 hover:bg-[rgb(44_95_124)] transition"
+                      className="px-4 py-2 hover:bg-[#e6cfa7]/20 transition"
                     >
                       +
                     </button>
                   </div>
 
+                  {/* Add to Cart Button */}
                   <button 
                     onClick={handleAddToCart}
-                    className="flex-1 px-6 py-3 bg-orange-500 text-[#2b1d12] font-semibold rounded hover:bg-[#d4bd95] transition"
+                    className="w-full px-6 py-3 bg-[#e6cfa7] text-[#2b1d12] font-semibold rounded-lg 
+                               hover:bg-[#d4bd95] transition flex items-center justify-center gap-2"
                   >
+                    <ShoppingCart className="w-5 h-5" />
                     ADD TO CART
+                  </button>
+
+                  {/* Proceed to Checkout Button */}
+                  <button 
+                    onClick={handleProceedToCheckout}
+                    className="w-full px-6 py-3 bg-[#E76F51] text-white font-semibold rounded-lg 
+                               hover:bg-[#D55A3A] transition flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    PROCEED TO CHECKOUT
                   </button>
                 </div>
               ) : (
-                <div className="mb-6">
-                  <div className="flex items-center justify-between border border-[#e6cfa7]/40 rounded-lg px-6 py-3 mb-3">
+                <div className="mb-6 space-y-4">
+                  {/* Cart Item Controls */}
+                  <div className="flex items-center justify-between border border-[#e6cfa7]/40 rounded-lg px-6 py-3">
                     <button 
                       onClick={() => decreaseQty(cartItem.id)}
                       className="text-xl hover:text-[#e6cfa7] transition"
@@ -169,9 +204,20 @@ export default function ProductPage() {
                       +
                     </button>
                   </div>
+                  
                   <p className="text-center text-sm text-[#e6cfa7]">
                     ✓ Added to cart
                   </p>
+
+                  {/* Proceed to Checkout Button (when item in cart) */}
+                  <button 
+                    onClick={handleProceedToCheckout}
+                    className="w-full px-6 py-3 bg-[#E76F51] text-white font-semibold rounded-lg 
+                               hover:bg-[#D55A3A] transition flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    PROCEED TO CHECKOUT
+                  </button>
                 </div>
               )}
 
@@ -194,6 +240,17 @@ export default function ProductPage() {
                 </p>
                 <p>
                   <span className="font-semibold">Material:</span> {product.stone}
+                </p>
+              </div>
+
+              {/* Additional Info */}
+              <div className="mt-6 p-4 bg-[#2b1d12]/30 rounded-lg border border-[#e6cfa7]/20">
+                <p className="text-sm text-[#eadbc4]">
+                  ✓ Free shipping on orders above ₹500
+                  <br />
+                  ✓ Cash on Delivery available
+                  <br />
+                  ✓ Easy returns within 7 days
                 </p>
               </div>
             </div>
@@ -233,7 +290,7 @@ export default function ProductPage() {
                   <a
                     key={relatedProduct.id}
                     href={`/product/${relatedProduct.id}`}
-                    className="bg-[rgb(44_95_124)] border-[#e6cfa7]/40 rounded-lg p-4 hover:border-[#e6cfa7] transition group"
+                    className="bg-[rgb(44_95_124)] border border-[#e6cfa7]/40 rounded-lg p-4 hover:border-[#e6cfa7] transition group"
                   >
                     <div className="h-32 bg-[#2b1d12]/60 rounded mb-3 overflow-hidden">
                       <img

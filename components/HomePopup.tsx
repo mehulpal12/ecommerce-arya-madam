@@ -22,7 +22,6 @@ export default function HomePopup() {
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
       <div className="relative w-[90%] max-w-md rounded-xl overflow-hidden shadow-2xl">
-
         {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -30,13 +29,13 @@ export default function HomePopup() {
         />
         <div className="absolute inset-0 bg-white/75" />
 
-        {/* ❌ CLOSE ICON — IMPORTANT FIX */}
+        {/* Close Button */}
         <button
           type="button"
           onClick={closePopup}
           className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg cursor-pointer"
         >
-          <span className="text-xl leading-none">×</span>
+          <span className="text-xl leading-none text-black">×</span>
         </button>
 
         {/* Content */}
@@ -50,16 +49,18 @@ export default function HomePopup() {
           </p>
 
           <form className="mt-6 space-y-4">
+            {/* ✅ Email Input with BLACK placeholder */}
             <input
               type="email"
               placeholder="Email"
               required
-              className="w-full rounded-lg border-2 border-purple-700 px-4 py-3 text-sm focus:outline-none"
+              className="w-full rounded-lg border-2 border-purple-700 px-4 py-3 text-sm 
+                         text-black placeholder:text-black focus:outline-none"
             />
 
             <button
               type="submit"
-              className="w-full rounded-lg bg-purple-700 py-3 text-white font-semibold hover:bg-purple-800"
+              className="w-full rounded-lg bg-purple-700 py-3 text-white font-semibold hover:bg-purple-800 transition"
             >
               Submit
             </button>
