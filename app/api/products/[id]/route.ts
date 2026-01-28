@@ -6,10 +6,10 @@ import { prisma } from "@/lib/prisma";
 // ================== GET - Fetch Single Product ==================
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // ← AWAIT added
 
     console.log("📥 GET /api/products/[id] called");
     console.log("Product ID:", id);
@@ -57,10 +57,10 @@ export async function GET(
 // ================== PUT - Update Product ==================
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // ← AWAIT added
     const body = await req.json();
 
     console.log("📥 PUT /api/products/[id] called");
@@ -130,10 +130,10 @@ export async function PUT(
 // ================== DELETE - Delete Product ==================
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // ← AWAIT added
 
     console.log("📥 DELETE /api/products/[id] called");
     console.log("Product ID:", id);
