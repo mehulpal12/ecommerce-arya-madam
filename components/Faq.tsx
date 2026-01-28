@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: 'Can I apply if no role matches my profile?',
-    a: 'Absolutely. You can send us your resume, and we'll reach out when a suitable opportunity arises.',
+    a: 'Absolutely. You can send us your resume, and we\'ll reach out when a suitable opportunity arises.',
   },
   {
     q: 'What kind of work culture do you promote?',
