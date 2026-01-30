@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/app/providers/CartProvider";
@@ -96,33 +97,37 @@ export default function RemedyProductsPage() {
                     key={p.id}
                     className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-5 rounded-2xl flex flex-col shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
                   >
-                    {/* IMAGE */}
-                    <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50">
-                      {p.images?.length > 0 ? (
-                        <Image
-                          src={p.images[0] || "/placeholder.jpg"}
-                          alt={p.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover transition-transform duration-500 hover:scale-110"
-                        />
-                      ) : (
-                        <div className="h-full flex items-center justify-center text-gray-400 text-sm">
-                          No Image
-                        </div>
-                      )}
+                    {/* IMAGE - Clickable */}
+                    <Link href={`/remedies/product/${p.id}`} className="block">
+                      <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50 cursor-pointer">
+                        {p.images?.length > 0 ? (
+                          <Image
+                            src={p.images[0] || "/placeholder.jpg"}
+                            alt={p.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="object-cover transition-transform duration-500 hover:scale-110"
+                          />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+                            No Image
+                          </div>
+                        )}
 
-                      {p.stock === 0 && (
-                        <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                          Out of Stock
-                        </span>
-                      )}
-                    </div>
+                        {p.stock === 0 && (
+                          <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                            Out of Stock
+                          </span>
+                        )}
+                      </div>
+                    </Link>
 
-                    {/* TITLE */}
-                    <h3 className="font-bold text-[rgb(44_95_124)] min-h-[2.5rem] line-clamp-2 leading-tight">
-                      {p.title}
-                    </h3>
+                    {/* TITLE - Clickable */}
+                    <Link href={`/remedies/product/${p.id}`}>
+                      <h3 className="font-bold text-[rgb(44_95_124)] min-h-[2.5rem] line-clamp-2 leading-tight hover:text-[#e6cfa7] transition-colors cursor-pointer">
+                        {p.title}
+                      </h3>
+                    </Link>
 
                     {/* RATING */}
                     <div className="mt-2 flex items-center gap-1">
@@ -170,15 +175,16 @@ export default function RemedyProductsPage() {
                     {/* CART ACTIONS */}
                     {!cartItem ? (
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.preventDefault();
                           addToCart({
                             id: p.id,
                             title: p.title,
                             price: p.price,
                             image: p.images[0] || "/placeholder.jpg",
                             quantity: 1,
-                          })
-                        }
+                          });
+                        }}
                         disabled={p.stock === 0}
                         className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl hover:bg-[#1a120a] transition-all font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
                       >
@@ -187,7 +193,10 @@ export default function RemedyProductsPage() {
                     ) : (
                       <div className="mt-auto flex justify-between items-center border-2 border-gray-300 rounded-xl px-4 py-3 bg-gray-50">
                         <button
-                          onClick={() => decreaseQty(cartItem.id)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            decreaseQty(cartItem.id);
+                          }}
                           className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition"
                         >
                           −
@@ -196,7 +205,10 @@ export default function RemedyProductsPage() {
                           {cartItem.quantity}
                         </span>
                         <button
-                          onClick={() => increaseQty(cartItem.id)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            increaseQty(cartItem.id);
+                          }}
                           disabled={cartItem.quantity >= p.stock}
                           className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition disabled:opacity-50"
                         >
