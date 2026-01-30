@@ -37,7 +37,15 @@ const info = [
 ];
 
 export default function ContactPage() {
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "Select a subject",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   /* Intersection Animation */
   useEffect(() => {
@@ -52,6 +60,56 @@ export default function ContactPage() {
     elements.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatusMessage("");
+
+    // Validation
+    if (formData.subject === "Select a subject") {
+      setStatusMessage("❌ Please select a subject");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatusMessage("✅ " + data.message);
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "Select a subject",
+          message: "",
+        });
+      } else {
+        setStatusMessage("❌ " + data.error);
+      }
+    } catch (error) {
+      setStatusMessage("❌ Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <section id="contact" className="relative font-serif overflow-hidden bg-white">
@@ -69,7 +127,7 @@ export default function ContactPage() {
           </h2>
           <p className="text-white text-xl max-w-3xl mx-auto">
             Have questions? We'd love to hear from you.
-            Send us a message and we’ll respond as soon as possible.
+            Send us a message and we'll respond as soon as possible.
           </p>
         </div>
       </div>
@@ -117,54 +175,86 @@ export default function ContactPage() {
             We're here to help with any questions about our products, orders, or services.
           </p>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Enter Your Full Name *"
+              required
+              disabled={loading}
               className="w-full border-2 border-black rounded-md px-4 py-3
-                         text-black placeholder:text-black text-base font-medium"
+                         text-black placeholder:text-black text-base font-medium disabled:opacity-50"
             />
 
             <input
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Email Address *"
+              required
+              disabled={loading}
               className="w-full border-2 border-black rounded-md px-4 py-3
-                         text-black placeholder:text-black text-base font-medium"
+                         text-black placeholder:text-black text-base font-medium disabled:opacity-50"
             />
 
             <input
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               placeholder="Phone Number"
+              disabled={loading}
               className="w-full border-2 border-black rounded-md px-4 py-3
-                         text-black placeholder:text-black text-base font-medium"
+                         text-black placeholder:text-black text-base font-medium disabled:opacity-50"
             />
 
-            {/* ===== SELECT SUBJECT (FIXED) ===== */}
+            {/* ===== SELECT SUBJECT ===== */}
             <select
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              required
+              disabled={loading}
               className="w-full border-2 border-black rounded-md px-4 py-3
-                         text-black text-base font-medium leading-normal"
+                         text-black text-base font-medium leading-normal disabled:opacity-50"
             >
-              <option className="text-base font-medium">Select a subject</option>
-              <option className="text-base font-medium">Orders</option>
-              <option className="text-base font-medium">Products</option>
-              <option className="text-base font-medium">Support</option>
+              <option>Select a subject</option>
+              <option>Orders</option>
+              <option>Products</option>
+              <option>Support</option>
             </select>
 
             <textarea
+              name="message"
               rows={5}
               maxLength={500}
-              value={message}
-              onChange={e => setMessage(e.target.value)}
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Your message..."
+              required
+              disabled={loading}
               className="w-full border-2 border-black rounded-md px-4 py-3 resize-none
-                         text-black placeholder:text-black text-base font-medium"
+                         text-black placeholder:text-black text-base font-medium disabled:opacity-50"
             />
 
             <p className="text-xs text-black">
-              {message.length}/500 characters
+              {formData.message.length}/500 characters
             </p>
+
+            {/* STATUS MESSAGE */}
+            {statusMessage && (
+              <p className={`text-sm font-semibold ${statusMessage.includes("✅") ? "text-green-600" : "text-red-600"}`}>
+                {statusMessage}
+              </p>
+            )}
 
             {/* SEND MESSAGE BUTTON */}
             <button
+              type="submit"
+              disabled={loading}
               className="w-full bg-[rgb(44_95_124)] text-white py-3 rounded-md font-semibold
-                         flex items-center justify-center gap-2"
+                         flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-[rgb(34_85_114)] transition"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +264,7 @@ export default function ContactPage() {
               >
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
               </svg>
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

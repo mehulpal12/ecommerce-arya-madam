@@ -107,7 +107,7 @@ const GalleryPage = () => {
           initial={{ opacity: 0, y: -40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center bg-[rgb(44_95_124)] py-20 mb-16"
+          className="text-center bg-[rgb(44_95_124)] py-5 mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Gallery

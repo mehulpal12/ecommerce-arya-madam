@@ -4,17 +4,61 @@ import { useEffect, useState } from "react";
 
 export default function HomePopup() {
   const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(true);
-    }, 1000);
+    // Check if popup has been shown before
+    const hasSeenPopup = localStorage.getItem("hasSeenPopup");
 
-    return () => clearTimeout(timer);
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShow(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const closePopup = () => {
     setShow(false);
+    // Mark popup as seen
+    localStorage.setItem("hasSeenPopup", "true");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("✅ Successfully subscribed!");
+        setEmail("");
+        // Mark popup as seen after successful subscription
+        localStorage.setItem("hasSeenPopup", "true");
+        setTimeout(() => {
+          setShow(false);
+        }, 2000);
+      } else {
+        setMessage(data.error || "❌ Something went wrong");
+      }
+    } catch (error) {
+      setMessage("❌ Failed to subscribe");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!show) return null;
@@ -49,23 +93,32 @@ export default function HomePopup() {
             Sign up for Special Discount Coupons
           </p>
 
-          <form className="mt-5 sm:mt-6 space-y-3 sm:space-y-4">
-            {/* ✅ Email Input with BLACK placeholder */}
+          <form onSubmit={handleSubmit} className="mt-5 sm:mt-6 space-y-3 sm:space-y-4">
             <input
               type="email"
               placeholder="Email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
               className="w-full rounded-lg border-2 border-purple-700 px-3 sm:px-4 py-2 sm:py-3 text-sm 
-                         text-black placeholder:text-black focus:outline-none focus:border-purple-800"
+                         text-black placeholder:text-black focus:outline-none focus:border-purple-800 disabled:opacity-50"
             />
 
             <button
               type="submit"
-              className="w-full rounded-lg bg-purple-700 py-2 sm:py-3 text-white text-sm sm:text-base font-semibold hover:bg-purple-800 transition"
+              disabled={loading}
+              className="w-full rounded-lg bg-purple-700 py-2 sm:py-3 text-white text-sm sm:text-base font-semibold hover:bg-purple-800 transition disabled:opacity-50"
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </form>
+
+          {message && (
+            <p className={`mt-3 text-sm font-semibold ${message.includes("✅") ? "text-green-600" : "text-red-600"}`}>
+              {message}
+            </p>
+          )}
 
           <p className="mt-3 sm:mt-4 text-xs text-gray-700 leading-relaxed">
             By signing up, you agree to receive marketing emails. View our{" "}
