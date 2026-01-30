@@ -72,9 +72,23 @@ export default function AboutUs() {
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Then handle hash navigation if present
     if (window.location.hash === "#about") {
       setTimeout(() => {
-        document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+        const element = document.getElementById("about");
+        if (element) {
+          const navbarHeight = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
       }, 150);
     }
   }, []);

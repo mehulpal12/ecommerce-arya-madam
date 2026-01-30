@@ -47,6 +47,28 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
+  /* Scroll to top on page load */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Then handle hash navigation if present
+    if (window.location.hash === "#contact") {
+      setTimeout(() => {
+        const element = document.getElementById("contact");
+        if (element) {
+          const navbarHeight = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 150);
+    }
+  }, []);
+
   /* Intersection Animation */
   useEffect(() => {
     const elements = document.querySelectorAll('[data-animate="antique"]');
