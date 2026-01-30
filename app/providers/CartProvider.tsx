@@ -1,4 +1,4 @@
-"use client";
+"use client"; // 👈👈👈 THIS IS NON-NEGOTIABLE
 
 import { createContext, useContext, useReducer } from "react";
 import { cartReducer } from "@/lib/cartReducer";
@@ -16,27 +16,15 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-export const CartProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [state, dispatch] = useReducer(cartReducer, {
-    items: [],
-  });
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
-  // 🔥 DERIVED STATE (SINGLE SOURCE OF TRUTH)
-  const totalItems = state.items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
-
+  const totalItems = state.items.reduce((s, i) => s + i.quantity, 0);
   const totalPrice = state.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (s, i) => s + i.price * i.quantity,
     0
   );
 
-  // 🔥 ACTIONS
   const addToCart = (item: CartItem) =>
     dispatch({ type: "ADD_TO_CART", payload: item });
 
@@ -64,11 +52,10 @@ export const CartProvider = ({
       {children}
     </CartContext.Provider>
   );
-};
+}
 
-export const useCart = () => {
+export function useCart() {
   const ctx = useContext(CartContext);
-  if (!ctx)
-    throw new Error("useCart must be used inside CartProvider");
+  if (!ctx) throw new Error("useCart must be used inside CartProvider");
   return ctx;
-};
+}
