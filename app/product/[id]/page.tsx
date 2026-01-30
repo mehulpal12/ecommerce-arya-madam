@@ -126,7 +126,7 @@ export default function ProductPage() {
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center bg-[#fdfaf6]">
-          <div className="text-center text-[#2b1d12]">
+          <div className="text-center text-[rgb(44_95_124)]">
             <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#e6cfa7] border-r-transparent mb-4"></div>
             <p className="text-xl">Loading product...</p>
           </div>
@@ -142,10 +142,10 @@ export default function ProductPage() {
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center bg-[#fdfaf6]">
-          <div className="text-center text-[#2b1d12]">
+          <div className="text-center text-[rgb(44_95_124)]">
             <h1 className="text-3xl font-bold mb-4">Product not found</h1>
             <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
-            <a href="/" className="px-6 py-3 bg-[#e6cfa7] text-[#2b1d12] rounded-lg inline-block hover:bg-[#d4bd95] transition">
+            <a href="/" className="px-6 py-3 bg-[#e6cfa7] text-[rgb(44_95_124)] rounded-lg inline-block hover:bg-[#d4bd95] transition">
               Go Home
             </a>
           </div>
@@ -198,7 +198,7 @@ export default function ProductPage() {
 
             {/* RIGHT - Product Details */}
             <div className="bg-white border border-gray-200 p-8 rounded-2xl shadow-sm">
-              <h1 className="text-3xl font-bold mb-2 text-[#2b1d12]">
+              <h1 className="text-3xl font-bold mb-2 text-[rgb(44_95_124)]">
                 {product.title}
               </h1>
 
@@ -220,7 +220,7 @@ export default function ProductPage() {
 
               {/* Price */}
               <div className="mb-6 pb-6 border-b border-gray-200">
-                <span className="text-3xl font-bold text-[#2b1d12]">
+                <span className="text-3xl font-bold text-[rgb(44_95_124)]">
                   ₹{product.price}
                 </span>
                 {product.oldPrice && (
@@ -258,7 +258,7 @@ export default function ProductPage() {
               {/* Color Variants */}
               {product.colour && product.colour.length > 0 && (
                 <div className="mb-6">
-                  <p className="text-sm font-semibold mb-3 text-[#2b1d12]">Available Colors:</p>
+                  <p className="text-sm font-semibold mb-3 text-[rgb(44_95_124)]">Available Colors:</p>
                   <div className="flex gap-2">
                     {product.colour.map((color, idx) => (
                       <div
@@ -301,8 +301,8 @@ export default function ProductPage() {
                   <button 
                     onClick={handleAddToCart}
                     disabled={product.stock === 0}
-                    className="w-full px-6 py-4 bg-[#2b1d12] text-white font-semibold rounded-xl 
-                               hover:bg-[#1a120a] transition-all flex items-center justify-center gap-2
+                    className="w-full px-6 py-4 bg-[rgb(44_95_124)] text-white font-semibold rounded-xl 
+                               hover:bg-[rgb(34_85_114)] transition-all flex items-center justify-center gap-2
                                disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                   >
                     <ShoppingCart className="w-5 h-5" />
@@ -327,15 +327,15 @@ export default function ProductPage() {
                   <div className="flex items-center justify-between border-2 border-gray-200 rounded-xl px-6 py-4 bg-gray-50">
                     <button 
                       onClick={() => decreaseQty(cartItem.id)}
-                      className="text-xl font-bold text-gray-700 hover:text-[#2b1d12] transition"
+                      className="text-xl font-bold text-gray-700 hover:text-[rgb(44_95_124)] transition"
                     >
                       −
                     </button>
-                    <span className="text-lg font-semibold text-[#2b1d12]">{cartItem.quantity} in cart</span>
+                    <span className="text-lg font-semibold text-[rgb(44_95_124)]">{cartItem.quantity} in cart</span>
                     <button 
                       onClick={() => increaseQty(cartItem.id)}
                       disabled={cartItem.quantity >= product.stock}
-                      className="text-xl font-bold text-gray-700 hover:text-[#2b1d12] transition disabled:opacity-50"
+                      className="text-xl font-bold text-gray-700 hover:text-[rgb(44_95_124)] transition disabled:opacity-50"
                     >
                       +
                     </button>
@@ -360,7 +360,7 @@ export default function ProductPage() {
               {/* Badge */}
               {product.badge && (
                 <div className="mb-6">
-                  <span className="inline-block bg-[#e6cfa7] text-[#2b1d12] px-4 py-2 rounded-lg text-sm font-semibold">
+                  <span className="inline-block bg-[#e6cfa7] text-[rgb(44_95_124)] px-4 py-2 rounded-lg text-sm font-semibold">
                     {product.badge}
                   </span>
                 </div>
@@ -369,14 +369,14 @@ export default function ProductPage() {
               {/* Product Meta */}
               <div className="text-sm text-gray-600 space-y-2 border-t border-gray-200 pt-6">
                 <p>
-                  <span className="font-semibold text-[#2b1d12]">SKU:</span> {product.sku}
+                  <span className="font-semibold text-[rgb(44_95_124)]">SKU:</span> {product.sku}
                 </p>
                 <p>
-                  <span className="font-semibold text-[#2b1d12]">Category:</span> {product.category}
+                  <span className="font-semibold text-[rgb(44_95_124)]">Category:</span> {product.category}
                 </p>
                 {product.stone && (
                   <p>
-                    <span className="font-semibold text-[#2b1d12]">Material:</span> {product.stone}
+                    <span className="font-semibold text-[rgb(44_95_124)]">Material:</span> {product.stone}
                   </p>
                 )}
               </div>
@@ -398,7 +398,7 @@ export default function ProductPage() {
           {/* Additional Product Info */}
           <div className="mt-10 bg-white border border-gray-200 rounded-2xl shadow-sm">
             <details open className="p-6">
-              <summary className="cursor-pointer text-[#2b1d12] font-bold text-lg">
+              <summary className="cursor-pointer text-[rgb(44_95_124)] font-bold text-lg">
                 PRODUCT DETAILS
               </summary>
 
@@ -408,7 +408,7 @@ export default function ProductPage() {
                 {/* What's in the box */}
                 {product.insideBox && product.insideBox.length > 0 && (
                   <div className="mt-4">
-                    <p className="font-semibold text-[#2b1d12] mb-2">What's in the Box:</p>
+                    <p className="font-semibold text-[rgb(44_95_124)] mb-2">What's in the Box:</p>
                     <ul className="list-disc ml-6 space-y-1">
                       {product.insideBox.map((item, idx) => (
                         <li key={idx}>{item}</li>
@@ -429,7 +429,7 @@ export default function ProductPage() {
             {/* Video Section */}
             {product.video && (
               <details className="p-6 border-t border-gray-200">
-                <summary className="cursor-pointer text-[#2b1d12] font-bold text-lg">
+                <summary className="cursor-pointer text-[rgb(44_95_124)] font-bold text-lg">
                   PRODUCT VIDEO
                 </summary>
                 <div className="mt-4">
@@ -446,7 +446,7 @@ export default function ProductPage() {
           {/* Related Products */}
           {relatedProducts.length > 0 && (
             <div className="mt-14">
-              <h2 className="text-2xl font-bold text-[#2b1d12] mb-6">
+              <h2 className="text-2xl font-bold text-[rgb(44_95_124)] mb-6">
                 You May Also Like
               </h2>
 
@@ -473,7 +473,7 @@ export default function ProductPage() {
                     <p className="text-sm text-gray-700 mb-2 font-medium line-clamp-2">
                       {relatedProduct.title}
                     </p>
-                    <p className="text-[#2b1d12] font-bold">
+                    <p className="text-[rgb(44_95_124)] font-bold">
                       ₹{relatedProduct.price}
                     </p>
                   </a>

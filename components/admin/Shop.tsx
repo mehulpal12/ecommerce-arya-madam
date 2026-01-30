@@ -442,5 +442,7 @@ export const Products = () => {
         message="Are you sure you want to delete this product? This action cannot be undone."
       />
     </div>
+
+    
   );
 }

@@ -1,50 +1,64 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Palette,
   Search,
   ShoppingCart,
   Menu,
   X,
-  LogIn,
-  LogOut,
-  User,
+  ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/app/providers/CartProvider";
 import CartDrawer from "@/components/CartDrawer";
-import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [remediesOpen, setRemediesOpen] = useState(false);
   const [query, setQuery] = useState("");
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { items } = useCart();
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
 
-  const { data: session, status } = useSession();
-
   const pathname = usePathname();
   const router = useRouter();
 
-  /* ===== SCROLL EFFECT ===== */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ===== CENTRAL NAV HANDLER ===== */
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setRemediesOpen(false);
+      }
+    };
+
+    if (remediesOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [remediesOpen]);
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     item: string
   ) => {
     setMenuOpen(false);
+    setRemediesOpen(false);
 
     if (item === "Home") {
       e.preventDefault();
@@ -68,7 +82,6 @@ export default function Navbar() {
     }
   };
 
-  /* ===== SEARCH ===== */
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       router.replace(`?q=${encodeURIComponent(query)}`, { scroll: false });
@@ -76,18 +89,33 @@ export default function Navbar() {
     }
   };
 
-  const navItems = ["Home", "Shop", "Collections", "Remedies", "About", "Contact"];
+  const remedyCategories = [
+    { label: "All Remedies", slug: "remedies" },
+    { label: "Wealth", slug: "remedies/wealth" },
+    { label: "Health", slug: "remedies/health" },
+    { label: "Relationship", slug: "remedies/relationship" },
+    { label: "Protection", slug: "remedies/protection" },
+    { label: "Self-Confidence", slug: "remedies/self-confidence" },
+    { label: "Education", slug: "remedies/education" },
+    { label: "Crown Chakra", slug: "remedies/crown-chakra" },
+    { label: "Third Eye Chakra", slug: "remedies/third-eye-chakra" },
+    { label: "Throat Chakra", slug: "remedies/throat-chakra" },
+    { label: "Heart Chakra", slug: "remedies/heart-chakra" },
+    { label: "Solar Plexus Chakra", slug: "remedies/solar-plexus-chakra" },
+    { label: "Sacral Chakra", slug: "remedies/sacral-chakra" },
+    { label: "Root Chakra", slug: "remedies/root-chakra" },
+  ];
+
+  const navItems = ["Home", "Shop", "Collections"];
 
   return (
     <>
-      {/* ===== NAVBAR ===== */}
       <div
         className={`sticky top-0 z-50 transition-all
         ${scrolled ? "bg-white backdrop-blur-md" : "bg-white"}
         border-b border-[#e6cfa7]/20`}
       >
         <nav className="flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
-          {/* LOGO */}
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "Home")}
@@ -101,8 +129,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* DESKTOP LINKS */}
-          <div className="hidden md:flex gap-10">
+          <div className="hidden md:flex gap-10 items-center">
             {navItems.map((item) => {
               const href =
                 item === "Home"
@@ -124,11 +151,51 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            {/* REMEDIES DROPDOWN */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setRemediesOpen(!remediesOpen)}
+                className="flex items-center gap-1 text-black hover:text-[#E76F51] transition"
+              >
+                Remedies
+                <ChevronDown className={`w-4 h-4 transition-transform ${remediesOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {remediesOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-[#e6cfa7]/40 rounded-lg shadow-xl py-2 max-h-[70vh] overflow-y-auto z-[100]">
+                  {remedyCategories.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={`/${cat.slug}`}
+                      onClick={() => setRemediesOpen(false)}
+                      className="block px-4 py-2 text-black hover:bg-[#e6cfa7]/20 hover:text-[#E76F51] transition"
+                    >
+                      {cat.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/about#about"
+              onClick={(e) => handleNavClick(e, "About")}
+              className="text-black hover:text-[#E76F51] transition"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/contact#contact"
+              onClick={(e) => handleNavClick(e, "Contact")}
+              className="text-black hover:text-[#E76F51] transition"
+            >
+              Contact
+            </Link>
           </div>
 
-          {/* ACTIONS */}
           <div className="flex items-center gap-4">
-            {/* SEARCH */}
             <div className="relative">
               <Search
                 className="w-6 h-6 text-black cursor-pointer"
@@ -144,36 +211,11 @@ export default function Navbar() {
                   placeholder="Search products..."
                   className="absolute right-0 mt-3 w-64 px-4 py-2 rounded-lg
                   bg-white border border-[#e6cfa7]/40 text-black
-                  shadow-xl outline-none"
+                  shadow-xl outline-none z-[100]"
                 />
               )}
             </div>
 
-            {/* AUTH */}
-            {status === "authenticated" ? (
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg
-                border border-[#e6cfa7]/40 hover:bg-[#e6cfa7]/20 transition"
-              >
-                <User className="w-4 h-4" />
-                <span className="text-sm font-semibold">
-                  {session.user?.name || "Account"}
-                </span>
-                <LogOut className="w-4 h-4 text-red-600" />
-              </button>
-            ) : (
-              <Link
-                href="/auth/login"
-                className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg
-                bg-[rgb(44_95_124)] text-white hover:opacity-90 transition"
-              >
-                <LogIn className="w-4 h-4" />
-                Login
-              </Link>
-            )}
-
-            {/* CART */}
             <button onClick={() => setCartOpen(true)} className="relative">
               <ShoppingCart className="w-6 h-6 text-black" />
               {totalItems > 0 && (
@@ -184,7 +226,6 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* HAMBURGER */}
             <button onClick={() => setMenuOpen((p) => !p)} className="md:hidden">
               {menuOpen ? <X /> : <Menu />}
             </button>
@@ -205,18 +246,50 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {status === "authenticated" ? (
+            {/* MOBILE REMEDIES */}
+            <div>
               <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="flex items-center gap-2 text-white mt-4"
+                onClick={() => setRemediesOpen(!remediesOpen)}
+                className="flex items-center justify-between w-full text-white text-lg"
               >
-                <LogOut /> Logout
+                Remedies
+                <ChevronDown className={`w-5 h-5 transition-transform ${remediesOpen ? 'rotate-180' : ''}`} />
               </button>
-            ) : (
-              <Link href="/auth/login" className="flex items-center gap-2 text-white mt-4">
-                <LogIn /> Login
-              </Link>
-            )}
+
+              {remediesOpen && (
+                <div className="mt-4 ml-4 space-y-3">
+                  {remedyCategories.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={`/${cat.slug}`}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setRemediesOpen(false);
+                      }}
+                      className="block text-white/90 hover:text-white"
+                    >
+                      {cat.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/about#about"
+              onClick={(e) => handleNavClick(e, "About")}
+              className="block text-white text-lg"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/contact#contact"
+              onClick={(e) => handleNavClick(e, "Contact")}
+              className="block text-white text-lg"
+            >
+              Contact
+            </Link>
           </div>
         )}
       </div>

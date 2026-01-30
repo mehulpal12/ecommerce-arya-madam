@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
 
 interface NavItem {
   label: string;
@@ -25,18 +24,16 @@ const Navbar: React.FC = () => {
 
   const isActive = (href: string) => pathname === href;
 
-  // 🔥 LOGOUT HANDLER
   const handleLogout = async () => {
-    await signOut({
-      callbackUrl: "/auth/login",
-    });
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin");
+    router.refresh();
   };
 
   return (
     <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* LOGO */}
           <Link href="/admin/shop" className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">A</span>
@@ -46,7 +43,6 @@ const Navbar: React.FC = () => {
             </span>
           </Link>
 
-          {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
@@ -64,7 +60,6 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* PROFILE */}
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button
@@ -94,25 +89,8 @@ const Navbar: React.FC = () => {
                 </svg>
               </button>
 
-              {/* DROPDOWN */}
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50">
-                  <Link
-                    href="/admin/profile"
-                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white"
-                  >
-                    👤 Profile
-                  </Link>
-
-                  <Link
-                    href="/admin/settings"
-                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white"
-                  >
-                    ⚙️ Settings
-                  </Link>
-
-                  <hr className="my-2 border-slate-700" />
-
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-700"
@@ -123,7 +101,6 @@ const Navbar: React.FC = () => {
               )}
             </div>
 
-            {/* MOBILE MENU BTN */}
             <button
               onClick={() => setIsMenuOpen((p) => !p)}
               className="md:hidden p-2 text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg"
@@ -134,7 +111,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       {isMenuOpen && (
         <div className="md:hidden bg-slate-800 border-t border-slate-700">
           <div className="px-2 pt-2 pb-3 space-y-1">

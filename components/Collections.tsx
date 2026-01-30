@@ -131,26 +131,7 @@ export default function CollectionsPage() {
           ))}
         </div>
 
-        {/* HELP SECTION – BLUE THEME ONLY HERE */}
-        <CurtainReveal>
-          <div
-            className="rounded-3xl border border-[rgb(44_95_124)]/40
-                       bg-[rgb(44_95_124)]/10
-                       p-14 text-center
-                       shadow-[0_10px_30px_rgba(44,95,124,0.3)]
-                       cursor-pointer
-                       hover:bg-[rgb(44_95_124)]/20
-                       hover:shadow-[0_15px_40px_rgba(44,95,124,0.45)]
-                       transition-all duration-300"
-          >
-            <h2 className="text-3xl font-bold mb-4 text-[rgb(44_95_124)]">
-              Need Help Finding Something?
-            </h2>
-            <p className="max-w-2xl mx-auto opacity-90 text-[rgb(44_95_124)]">
-              Our team of craft experts is here to help you.
-            </p>
-          </div>
-        </CurtainReveal>
+        
 
       </div>
     </section>

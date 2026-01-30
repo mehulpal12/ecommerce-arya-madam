@@ -9,8 +9,6 @@ import {
   Headphones,
   Lightbulb,
   Heart,
-  Mail,
-  ShoppingBag,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -439,43 +437,8 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* ================= CTA ================= */}
-      <section className="py-28 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <ThreeDCard>
-            <motion.div
-              className="max-w-4xl mx-auto text-center bg-[rgb(44_95_124)] p-16 rounded-3xl border border-[#e6cfa7]/40"
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <Heart className="mx-auto mb-6 text-white" size={48} />
-              <h2 className="text-3xl font-bold mb-6 text-white">
-                Join Our Creative Community
-              </h2>
-              <p className="text-white mb-10">
-                Be part of a growing community of creators.
-              </p>
 
-              <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <Link 
-                  href="/newsletter" 
-                  className="px-6 py-3 border bg-white text-[rgb(44_95_124)] rounded-lg inline-flex items-center justify-center hover:bg-gray-100 transition"
-                >
-                  <Mail className="inline mr-2" size={20} /> Subscribe to Newsletter
-                </Link>
-                <Link
-                  href="/shop"
-                  className="px-6 py-3 bg-[#E76F51] text-white rounded-lg inline-flex items-center justify-center hover:bg-[#d65a3d] transition"
-                >
-                  <ShoppingBag className="inline mr-2" size={20} /> Start Shopping
-                </Link>
-              </div>
-            </motion.div>
-          </ThreeDCard>
-        </div>
-      </section>
+
     </div>
   );
 }

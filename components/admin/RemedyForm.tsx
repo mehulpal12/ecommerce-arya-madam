@@ -388,7 +388,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="E.g., Natural Turmeric Face Pack"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-800"
             disabled={loading}
           />
         </div>
@@ -403,7 +403,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             value={ailment}
             onChange={(e) => setAilment(e.target.value)}
             placeholder="E.g., Acne, Dark Spots"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-800"
             disabled={loading}
           />
         </div>
@@ -416,7 +416,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black"
             disabled={loading}
           >
             <option value="">Select Category</option>
@@ -437,7 +437,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Brief description"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-800"
             rows={4}
             disabled={loading}
           />
@@ -455,7 +455,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
                 value={ingredient}
                 onChange={(e) => handleIngredientChange(index, e.target.value)}
                 placeholder="E.g., 1 tbsp turmeric"
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 text-black placeholder:text-gray-800"
               />
               {ingredients.length > 1 && (
                 <button
@@ -480,7 +480,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
                 value={instruction}
                 onChange={(e) => handleInstructionChange(index, e.target.value)}
                 placeholder={`Step ${index + 1}`}
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 text-black placeholder:text-gray-800"
                 rows={2}
               />
               {instructions.length > 1 && (
@@ -504,7 +504,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             value={dosage}
             onChange={(e) => setDosage(e.target.value)}
             placeholder="How to use"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-800"
             rows={3}
             disabled={loading}
           />
@@ -520,7 +520,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             placeholder="E.g., 2-3 weeks"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-800"
             disabled={loading}
           />
         </div>
@@ -536,7 +536,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
               min="0"
               value={price}
               onChange={(e) => setPrice(parseInt(e.target.value) || 0)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black"
               disabled={loading}
             />
           </div>
@@ -550,7 +550,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
               min="0"
               value={stock}
               onChange={(e) => setStock(parseInt(e.target.value) || 0)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black"
               disabled={loading}
             />
           </div>
@@ -568,7 +568,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
                 value={precaution}
                 onChange={(e) => handlePrecautionChange(index, e.target.value)}
                 placeholder="E.g., Do patch test"
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 text-black placeholder:text-gray-800"
               />
               {precautions.length > 1 && (
                 <button
