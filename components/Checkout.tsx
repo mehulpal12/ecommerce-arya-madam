@@ -5,7 +5,7 @@ import { useCart } from '@/app/providers/CartProvider';
 import { ShoppingBag, Trash2 } from 'lucide-react';
 
 export default function CheckoutPage() {
-  const { items: cartItems, increaseQty, decreaseQty, removeFromCart } = useCart();
+  const { items: cartItems, increaseQty, decreaseQty, removeItem } = useCart();
 
   const subtotal = cartItems.reduce((sum, p) => sum + p.price * p.quantity, 0);
   const shipping = subtotal > 0 ? 50 : 0;
