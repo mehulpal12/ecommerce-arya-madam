@@ -62,7 +62,7 @@ export default function RemedyProductsPage() {
         <div className="max-w-7xl mx-auto">
           {/* HEADER */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#2b1d12] capitalize">
+            <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)] capitalize">
               {slug?.toString().replace(/-/g, " ")}
             </h1>
             <p className="mt-4 text-lg text-gray-700">
@@ -94,7 +94,7 @@ export default function RemedyProductsPage() {
                 return (
                   <div
                     key={p.id}
-                    className="bg-white border border-gray-200 text-[#2b1d12] p-5 rounded-2xl flex flex-col shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
+                    className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-5 rounded-2xl flex flex-col shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
                   >
                     {/* IMAGE */}
                     <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50">
@@ -120,7 +120,7 @@ export default function RemedyProductsPage() {
                     </div>
 
                     {/* TITLE */}
-                    <h3 className="font-bold text-[#2b1d12] min-h-[2.5rem] leading-tight">
+                    <h3 className="font-bold text-[rgb(44_95_124)] min-h-[2.5rem] leading-tight">
                       {p.title}
                     </h3>
 
@@ -137,7 +137,7 @@ export default function RemedyProductsPage() {
 
                     {/* PRICE */}
                     <div className="mt-3 flex items-center gap-2 mb-3">
-                      <span className="font-bold text-xl text-[#2b1d12]">
+                      <span className="font-bold text-xl text-[rgb(44_95_124)]">
                         ₹{p.price.toLocaleString()}
                       </span>
                       {p.oldPrice && (
@@ -180,7 +180,7 @@ export default function RemedyProductsPage() {
                           })
                         }
                         disabled={p.stock === 0}
-                        className="mt-auto bg-[#2b1d12] text-white py-3 rounded-xl hover:bg-[#1a120a] transition-all font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
+                        className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl hover:bg-[#1a120a] transition-all font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
                       >
                         {p.stock === 0 ? "Out of Stock" : "Add to Cart"}
                       </button>
@@ -188,17 +188,17 @@ export default function RemedyProductsPage() {
                       <div className="mt-auto flex justify-between items-center border-2 border-gray-300 rounded-xl px-4 py-3 bg-gray-50">
                         <button
                           onClick={() => decreaseQty(cartItem.id)}
-                          className="text-xl font-bold text-[#2b1d12] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition"
+                          className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition"
                         >
                           −
                         </button>
-                        <span className="font-bold text-[#2b1d12]">
+                        <span className="font-bold text-[rgb(44_95_124)]">
                           {cartItem.quantity}
                         </span>
                         <button
                           onClick={() => increaseQty(cartItem.id)}
                           disabled={cartItem.quantity >= p.stock}
-                          className="text-xl font-bold text-[#2b1d12] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition disabled:opacity-50"
+                          className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition disabled:opacity-50"
                         >
                           +
                         </button>

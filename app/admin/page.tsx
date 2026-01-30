@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[rgb(44_95_124)] via-[#2b1d12] to-[rgb(44_95_124)] px-4 font-serif">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[rgb(44_95_124)] via-[rgb(44_95_124)] to-[rgb(44_95_124)] px-4 font-serif">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}

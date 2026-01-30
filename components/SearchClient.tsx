@@ -156,7 +156,7 @@ export default function ProductsPage() {
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white text-[#2b1d12] p-6 rounded-2xl space-y-10"
+            className="bg-white text-[rgb(44_95_124)] p-6 rounded-2xl space-y-10"
           >
             {/* CATEGORY */}
             <div>
@@ -225,7 +225,7 @@ export default function ProductsPage() {
                 <motion.div
                   key={p.id}
                   variants={itemVariants}
-                  className="bg-white text-[#2b1d12] p-6 rounded-2xl flex flex-col"
+                  className="bg-white text-[rgb(44_95_124)] p-6 rounded-2xl flex flex-col"
                 >
                   {/* Product Link - Image aur Name pe click karke details page khulega */}
                   <Link href={`/product/${p.id}`}>

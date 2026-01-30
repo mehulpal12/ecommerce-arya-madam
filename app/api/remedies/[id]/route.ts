@@ -1,14 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma'; // ✅ Use existing prisma instance
+// app/api/remedies/[id]/route.ts
 
-// GET - Fetch single remedy
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+
+// GET single remedy by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Await params in Next.js 15+
+    const { id } = await params;
+
+    console.log('📦 Fetching remedy with ID:', id);
+
     const remedy = await prisma.remedy.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!remedy) {
@@ -18,9 +25,10 @@ export async function GET(
       );
     }
 
+    console.log('✅ Remedy found:', remedy.title);
     return NextResponse.json(remedy);
   } catch (error) {
-    console.error('Error fetching remedy:', error);
+    console.error('❌ Error fetching remedy:', error);
     return NextResponse.json(
       { error: 'Failed to fetch remedy' },
       { status: 500 }
@@ -28,37 +36,26 @@ export async function GET(
   }
 }
 
-// PUT - Update remedy
+// PUT/PATCH - Update remedy
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
-    const remedy = await prisma.remedy.update({
-      where: { id: params.id },
-      data: {
-        title: body.title,
-        description: body.description,
-        ailment: body.ailment,
-        ingredients: body.ingredients,
-        instructions: body.instructions,
-        dosage: body.dosage,
-        precautions: body.precautions,
-        duration: body.duration,
-        category: body.category,
-        price: body.price,
-        oldPrice: body.oldPrice,
-        stock: body.stock,
-        images: body.images,
-        video: body.video,
-      },
+    console.log('🔄 Updating remedy:', id);
+
+    const updatedRemedy = await prisma.remedy.update({
+      where: { id },
+      data: body,
     });
 
-    return NextResponse.json(remedy);
+    console.log('✅ Remedy updated:', updatedRemedy.title);
+    return NextResponse.json(updatedRemedy);
   } catch (error) {
-    console.error('Error updating remedy:', error);
+    console.error('❌ Error updating remedy:', error);
     return NextResponse.json(
       { error: 'Failed to update remedy' },
       { status: 500 }
@@ -66,19 +63,24 @@ export async function PUT(
   }
 }
 
-// DELETE - Delete remedy
+// DELETE remedy
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
+    console.log('🗑️ Deleting remedy:', id);
+
     await prisma.remedy.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
-    return NextResponse.json({ success: true });
+    console.log('✅ Remedy deleted successfully');
+    return NextResponse.json({ message: 'Remedy deleted successfully' });
   } catch (error) {
-    console.error('Error deleting remedy:', error);
+    console.error('❌ Error deleting remedy:', error);
     return NextResponse.json(
       { error: 'Failed to delete remedy' },
       { status: 500 }

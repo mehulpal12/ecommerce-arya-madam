@@ -31,7 +31,7 @@ const TermsPolicyPage = () => {
   return (
     <section
       className="relative min-h-screen px-6 py-32 font-serif
-                 bg-white text-[#2b1d12] overflow-hidden"
+                 bg-white text-[rgb(44_95_124)] overflow-hidden"
     >
       {/* CONTENT */}
       <div className="relative z-10 mx-auto max-w-4xl">
@@ -43,7 +43,7 @@ const TermsPolicyPage = () => {
               className="inline-block mb-6 px-6 py-2
                          border border-[#e6cfa7]
                          rounded-full
-                         text-[#2b1d12]
+                         text-[rgb(44_95_124)]
                          tracking-widest uppercase text-xs"
             >
               Terms & Policy
@@ -131,7 +131,7 @@ const TermsPolicyPage = () => {
             <button
               className="px-8 py-3 rounded-full
                          border border-[#e6cfa7]
-                         text-[#2b1d12]
+                         text-[rgb(44_95_124)]
                          hover:bg-[#e6cfa7]
                          hover:text-white
                          transition"
