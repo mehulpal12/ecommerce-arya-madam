@@ -286,7 +286,7 @@ export default function ProductPage() {
                       >
                         −
                       </button>
-                      <span className="px-6 py-2 border-x-2 border-gray-200 font-medium min-w-[60px] text-center">{quantity}</span>
+                      <span className="px-6 py-2 border-x-2 border-gray-200 font-medium min-w-[60px] text-center text-black">{quantity}</span>
                       <button 
                         onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                         className="px-4 py-2 hover:bg-gray-100 transition font-semibold text-gray-700"
@@ -331,7 +331,7 @@ export default function ProductPage() {
                     >
                       −
                     </button>
-                    <span className="text-lg font-semibold text-[rgb(44_95_124)]">{cartItem.quantity} in cart</span>
+                    <span className="text-lg font-semibold text-black">{cartItem.quantity} in cart</span>
                     <button 
                       onClick={() => increaseQty(cartItem.id)}
                       disabled={cartItem.quantity >= product.stock}
