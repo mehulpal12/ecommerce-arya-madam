@@ -21,7 +21,7 @@ const collections = [
     title: "Thread & Yarn",
     subtitle: "Silk, cotton, and specialty threads",
     items: "300+ Varieties",
-    image: "/assets/threadAndYarn.jpeg",
+    image: "/assets/threadAndYarn2.jpeg",
   },
   {
     title: "Decorative Supplies",
