@@ -204,6 +204,23 @@ export default function Navbar() {
               </Link>
             ))}
 
+            {/* ✅ ABOUT & CONTACT ADDED */}
+            <Link
+              href="/about"
+              onClick={() => setMenuOpen(false)}
+              className="block py-2 text-black"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="block py-2 text-black"
+            >
+              Contact
+            </Link>
+
             <button
               onClick={() => setMobileRemediesOpen((p) => !p)}
               className="flex justify-between w-full py-2 text-black"
