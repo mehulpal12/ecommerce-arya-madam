@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "./providers/CartProvider";
 import { SessionProvider } from "./providers/SessionProvider";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,37 +23,42 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SessionProvider>
           <CartProvider>
-            {children}
-            <Toaster 
+            {/* ✅ NAVBAR ISOLATED */}
+            
+
+            {/* ✅ PAGE CONTENT */}
+            <main className="relative z-0">
+              {children}
+            </main>
+
+            <Toaster
               position="top-right"
               toastOptions={{
                 duration: 3000,
                 style: {
-                  background: '#363636',
-                  color: '#fff',
+                  background: "#363636",
+                  color: "#fff",
                 },
                 success: {
                   duration: 3000,
                   iconTheme: {
-                    primary: '#10b981',
-                    secondary: '#fff',
+                    primary: "#10b981",
+                    secondary: "#fff",
                   },
                 },
                 error: {
                   duration: 4000,
                   iconTheme: {
-                    primary: '#ef4444',
-                    secondary: '#fff',
+                    primary: "#ef4444",
+                    secondary: "#fff",
                   },
                 },
               }}
