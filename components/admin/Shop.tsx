@@ -112,7 +112,7 @@ export const Products = () => {
     )
   ).sort();
 
-  // ✅ Get subcategories for selected main category
+  // ✅ Get subcategories for selected main category (FIXED - filters out null values)
   const subCategories = selectedMainCategory
     ? Array.from(
         new Set(
@@ -122,7 +122,7 @@ export const Products = () => {
               const parts = p.category?.split(" > ");
               return parts && parts.length === 2 ? parts[1] : null;
             })
-            .filter(Boolean)
+            .filter((subCat): subCat is string => subCat !== null) // ← FIXED: Type guard to remove null values
         )
       ).sort()
     : [];
