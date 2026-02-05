@@ -34,6 +34,10 @@ export const Products = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // ✅ New state for category filtering
+  const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -77,30 +81,51 @@ export const Products = () => {
     fetchProducts();
   }, []);
 
-  // ✅ Filter products (supports nested categories like "Remedies > Wealth")
+  // ✅ Filter products based on selected categories
   const filteredProducts = products.filter((product) => {
-    const category = product.category?.toLowerCase() || "";
-    const search = searchTerm.toLowerCase();
-    
-    // Match full category or main category (before " > ")
-    const mainCategory = category.split(" > ")[0];
-    
-    return category.includes(search) || mainCategory.includes(search);
+    const category = product.category || "";
+    const [mainCat, subCat] = category.split(" > ");
+
+    // Search term filter
+    if (searchTerm && !category.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+
+    // If no category selected, show all
+    if (!selectedMainCategory) return true;
+
+    // If only main category selected
+    if (selectedMainCategory && !selectedSubCategory) {
+      return mainCat === selectedMainCategory;
+    }
+
+    // If both main and sub selected
+    return mainCat === selectedMainCategory && subCat === selectedSubCategory;
   });
 
-  // ✅ Get unique categories (both main and nested)
-  const uniqueCategories = Array.from(
+  // ✅ Get unique main categories
+  const mainCategories = Array.from(
     new Set(
       products
-        .map((p) => p.category)
+        .map((p) => p.category?.split(" > ")[0])
         .filter(Boolean)
-        .flatMap((cat) => {
-          // Return both full category and main category
-          const parts = cat.split(" > ");
-          return parts.length === 2 ? [parts[0], cat] : [cat];
-        })
     )
   ).sort();
+
+  // ✅ Get subcategories for selected main category
+  const subCategories = selectedMainCategory
+    ? Array.from(
+        new Set(
+          products
+            .filter((p) => p.category?.startsWith(selectedMainCategory))
+            .map((p) => {
+              const parts = p.category?.split(" > ");
+              return parts && parts.length === 2 ? parts[1] : null;
+            })
+            .filter(Boolean)
+        )
+      ).sort()
+    : [];
 
   const getTotalStock = (stock: number | undefined) => {
     return stock || 0;
@@ -142,7 +167,36 @@ export const Products = () => {
     setPendingDeleteId(null);
   };
 
-  // ✅ Display helper for category chips
+  // ✅ Handle main category click
+  const handleMainCategoryClick = (category: string) => {
+    if (selectedMainCategory === category) {
+      // If same category clicked, deselect
+      setSelectedMainCategory(null);
+      setSelectedSubCategory(null);
+    } else {
+      // Select new main category
+      setSelectedMainCategory(category);
+      setSelectedSubCategory(null); // Reset subcategory
+    }
+  };
+
+  // ✅ Handle subcategory click
+  const handleSubCategoryClick = (subCat: string) => {
+    if (selectedSubCategory === subCat) {
+      setSelectedSubCategory(null); // Deselect
+    } else {
+      setSelectedSubCategory(subCat); // Select
+    }
+  };
+
+  // ✅ Clear all filters
+  const clearFilters = () => {
+    setSelectedMainCategory(null);
+    setSelectedSubCategory(null);
+    setSearchTerm("");
+  };
+
+  // ✅ Display helper for category chips in table
   const getCategoryDisplay = (category: string) => {
     const parts = category.split(" > ");
     if (parts.length === 2) {
@@ -177,8 +231,9 @@ export const Products = () => {
         </button>
       </div>
 
-      {/* Search Bar */}
+      {/* Search & Filter Bar */}
       <div className="bg-white p-4 rounded-xl shadow border border-gray-100">
+        {/* Search Input */}
         <div className="flex items-center bg-gray-100 rounded-xl px-3 py-2 mb-4">
           <Search size={20} className="text-gray-500" />
           <input
@@ -188,35 +243,102 @@ export const Products = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 bg-transparent outline-none ml-3 text-sm"
           />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm("")}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <X size={18} />
+            </button>
+          )}
         </div>
 
-        {uniqueCategories.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">
+        {/* Filter Section */}
+        <div>
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-sm font-semibold text-gray-700">
               Filter by Category
             </h3>
+            {(selectedMainCategory || searchTerm) && (
+              <button
+                onClick={clearFilters}
+                className="text-xs text-amber-600 hover:text-amber-700 font-medium"
+              >
+                Clear all filters
+              </button>
+            )}
+          </div>
+
+          {/* Main Categories */}
+          <div className="mb-3">
+            <p className="text-xs text-gray-500 mb-2">Main Categories:</p>
             <div className="flex flex-wrap gap-2">
-              {uniqueCategories.map((category, index) => {
-                const isNested = category.includes(" > ");
-                const displayText = isNested ? category.split(" > ")[1] : category;
-                
-                return (
-                  <button
-                    key={index}
-                    onClick={() => setSearchTerm(category)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-full hover:bg-amber-50 transition ${
-                      isNested
-                        ? "bg-amber-50 text-amber-700 border border-amber-200"
-                        : "bg-gray-100 text-amber-600"
-                    }`}
-                  >
-                    {displayText}
-                  </button>
-                );
-              })}
+              {/* All Button */}
+              <button
+                onClick={() => {
+                  setSelectedMainCategory(null);
+                  setSelectedSubCategory(null);
+                }}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                  !selectedMainCategory
+                    ? "bg-amber-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                All
+              </button>
+
+              {mainCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleMainCategoryClick(category)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                    selectedMainCategory === category
+                      ? "bg-amber-600 text-white shadow-md ring-2 ring-amber-300"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
-        )}
+
+          {/* Subcategories (only show if main category selected) */}
+          {selectedMainCategory && subCategories.length > 0 && (
+            <div className="pl-4 border-l-2 border-amber-200">
+              <p className="text-xs text-gray-500 mb-2">
+                Subcategories in {selectedMainCategory}:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedSubCategory(null)}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
+                    !selectedSubCategory
+                      ? "bg-amber-500 text-white shadow"
+                      : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
+                  }`}
+                >
+                  All {selectedMainCategory}
+                </button>
+
+                {subCategories.map((subCat) => (
+                  <button
+                    key={subCat}
+                    onClick={() => handleSubCategoryClick(subCat)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
+                      selectedSubCategory === subCat
+                        ? "bg-amber-500 text-white shadow ring-2 ring-amber-300"
+                        : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
+                    }`}
+                  >
+                    {subCat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {loading ? (
@@ -225,19 +347,21 @@ export const Products = () => {
         </div>
       ) : (
         <>
-          {searchTerm && (
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-lg text-gray-900">
-                Results for "{searchTerm}" ({filteredProducts.length})
-              </h3>
-              <button
-                onClick={() => setSearchTerm("")}
-                className="text-sm text-amber-600 hover:text-amber-700"
-              >
-                Clear search
-              </button>
-            </div>
-          )}
+          {/* Results Info */}
+          <div className="flex justify-between items-center">
+            <h3 className="font-semibold text-lg text-gray-900">
+              {selectedMainCategory || searchTerm ? (
+                <>
+                  Showing {filteredProducts.length} product
+                  {filteredProducts.length !== 1 ? "s" : ""}
+                  {selectedMainCategory && ` in ${selectedMainCategory}`}
+                  {selectedSubCategory && ` > ${selectedSubCategory}`}
+                </>
+              ) : (
+                `All Products (${filteredProducts.length})`
+              )}
+            </h3>
+          </div>
 
           {/* Desktop Table */}
           <div className="hidden md:block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
@@ -335,9 +459,7 @@ export const Products = () => {
                         colSpan={6}
                         className="text-center py-8 text-gray-500 text-sm"
                       >
-                        {searchTerm
-                          ? `No products found for category "${searchTerm}"`
-                          : "No products found."}
+                        No products found with current filters
                       </td>
                     </tr>
                   )}
@@ -430,9 +552,7 @@ export const Products = () => {
               })
             ) : (
               <div className="text-center py-8 text-gray-500">
-                {searchTerm
-                  ? `No products found for category "${searchTerm}"`
-                  : "No products found."}
+                No products found with current filters
               </div>
             )}
           </div>
