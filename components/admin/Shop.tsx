@@ -18,7 +18,7 @@ interface Product {
   id: string;
   title: string;
   description: string;
-  stock: number; // ✅ Changed from Stock[] to number
+  stock: number;
   images: string[];
   price: number;
   oldPrice: number;
@@ -52,7 +52,7 @@ export const Products = () => {
         if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
 
         const data = await res.json();
-        console.log("✅ Fetched products:", data); // Debug log
+        console.log("✅ Fetched products:", data);
 
         let fetchedProducts: Product[] = [];
 
@@ -77,15 +77,31 @@ export const Products = () => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((product) =>
-    product.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ✅ Filter products (supports nested categories like "Remedies > Wealth")
+  const filteredProducts = products.filter((product) => {
+    const category = product.category?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
+    
+    // Match full category or main category (before " > ")
+    const mainCategory = category.split(" > ")[0];
+    
+    return category.includes(search) || mainCategory.includes(search);
+  });
 
-  const uniqueCategories = [
-    ...new Set(products.map((p) => p.category).filter(Boolean)),
-  ];
+  // ✅ Get unique categories (both main and nested)
+  const uniqueCategories = Array.from(
+    new Set(
+      products
+        .map((p) => p.category)
+        .filter(Boolean)
+        .flatMap((cat) => {
+          // Return both full category and main category
+          const parts = cat.split(" > ");
+          return parts.length === 2 ? [parts[0], cat] : [cat];
+        })
+    )
+  ).sort();
 
-  // ✅ Fixed: stock is now a number, not an array
   const getTotalStock = (stock: number | undefined) => {
     return stock || 0;
   };
@@ -126,6 +142,29 @@ export const Products = () => {
     setPendingDeleteId(null);
   };
 
+  // ✅ Display helper for category chips
+  const getCategoryDisplay = (category: string) => {
+    const parts = category.split(" > ");
+    if (parts.length === 2) {
+      return (
+        <div className="flex items-center gap-1 text-xs">
+          <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded-full">
+            {parts[0]}
+          </span>
+          <ChevronRight className="w-3 h-3 text-gray-400" />
+          <span className="px-2 py-1 bg-amber-50 text-amber-700 rounded-full">
+            {parts[1]}
+          </span>
+        </div>
+      );
+    }
+    return (
+      <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">
+        {category}
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -157,15 +196,24 @@ export const Products = () => {
               Filter by Category
             </h3>
             <div className="flex flex-wrap gap-2">
-              {uniqueCategories.map((category, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSearchTerm(category)}
-                  className="px-3 py-1.5 bg-gray-100 text-amber-600 text-xs font-medium rounded-full hover:bg-amber-50 transition"
-                >
-                  {category}
-                </button>
-              ))}
+              {uniqueCategories.map((category, index) => {
+                const isNested = category.includes(" > ");
+                const displayText = isNested ? category.split(" > ")[1] : category;
+                
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setSearchTerm(category)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-full hover:bg-amber-50 transition ${
+                      isNested
+                        ? "bg-amber-50 text-amber-700 border border-amber-200"
+                        : "bg-gray-100 text-amber-600"
+                    }`}
+                  >
+                    {displayText}
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
@@ -232,9 +280,7 @@ export const Products = () => {
                             {product.description}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">
-                              {product.category || "N/A"}
-                            </span>
+                            {getCategoryDisplay(product.category || "N/A")}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-gray-600">
                             <span
@@ -325,13 +371,11 @@ export const Products = () => {
                         {product.description}
                       </span>
                     </div>
-                    <div className="flex justify-between mb-2">
+                    <div className="flex justify-between mb-2 items-center">
                       <span className="font-semibold text-gray-800">
                         Category:
                       </span>
-                      <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">
-                        {product.category || "N/A"}
-                      </span>
+                      {getCategoryDisplay(product.category || "N/A")}
                     </div>
                     <div className="flex justify-between mb-2">
                       <span className="font-semibold text-gray-800">
@@ -364,7 +408,7 @@ export const Products = () => {
                     <div className="flex gap-2 mt-3">
                       <button
                         onClick={() =>
-                          router.push(`/manage/products/${product.id}`)
+                          router.push(`/admin/shop/${product.id}`)
                         }
                         className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition cursor-pointer"
                         title="Edit Product"
@@ -442,7 +486,5 @@ export const Products = () => {
         message="Are you sure you want to delete this product? This action cannot be undone."
       />
     </div>
-
-    
   );
-}
+};

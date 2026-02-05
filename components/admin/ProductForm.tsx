@@ -2,7 +2,7 @@
 
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { X, Plus, Video } from "lucide-react";
+import { X, Plus, Video, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import validator from "validator";
 import { toast } from "react-hot-toast";
@@ -20,23 +20,41 @@ interface ProductFormProps {
   product?: any;
 }
 
+// ✅ Nested Category Structure
+const CATEGORY_STRUCTURE = {
+  "Remedies": {
+    subcategories: ["Wealth", "Health", "Relationship", "Protection", "Self-Confidence", "Education", "Crown Chakra", "Third Eye Chakra", "Throat Chakra", "Heart Chakra", "Solar Plexus Chakra", "Sacral Chakra", "Root Chakra", "Vastu"]
+  },
+  "Crystals & Spiritual": {
+    subcategories: ["Natural Crystals", "Crystal Frames", "Crystal Birds", "Crystal Trees", "Crystal Angles", "Crystal Balls", "Crystal Rings", "Anklets", "Yantras"]
+  },
+  "Creative & Handcrafted": {
+    subcategories: ["Art & Craft", "Handmade Occasion-Special Items", "Jutt Item", "Coir Products"]
+  },
+  "Sage": {
+    subcategories: ["God Idols", "Incense", "Smudging"]
+  },
+  "Thakur Ji Dresses": {
+    subcategories: ["Rudraksh", "Pooja Items", "Deity Clothing"]
+  },
+  "Shop": {
+    subcategories: []
+  },
+  "Collections": {
+    subcategories: []
+  }
+};
+
 const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   const [items, setItems] = useState<string[]>([""]);
   const [colour, setColour] = useState<string[]>([""]);
   const [video, setVideo] = useState<{ url: string; file?: File; serverId?: string } | null>(null);
   const [uploadingVideo, setUploadingVideo] = useState(false);
 
-  // Available categories
-  const availableCategories = [
-    'Beads',
-    'Threads',
-    'Kits',
-    'Tools',
-    'Charms',
-    'Accessories',
-    'Sets',
-    'Other'
-  ];
+  // ✅ Category States
+  const [mainCategory, setMainCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [showSubcategories, setShowSubcategories] = useState(false);
 
   const handleChange = (index: number, value: string) => {
     const newItems = [...items];
@@ -84,7 +102,6 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   const [price, setPrice] = useState<number>();
   const [oldPrice, setOldPrice] = useState<number>();
   const [exclusive, setExclusive] = useState<number>();
-  const [category, setCategory] = useState("");
   const [stone, setStone] = useState("");
   const [badge, setBadge] = useState("");
   const [loading, setLoading] = useState(false);
@@ -101,6 +118,13 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
     setTimeout(() => setMessage(null), 5000);
   };
 
+  // ✅ Get final category (Main > Sub or just Main)
+  const getFinalCategory = () => {
+    if (subCategory) return `${mainCategory} > ${subCategory}`;
+    return mainCategory;
+  };
+
+  // ✅ Parse category on update mode
   useEffect(() => {
     if (!isUpdateMode || !product) return;
 
@@ -111,11 +135,22 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
     setPrice(product.price || 0);
     setOldPrice(product.oldPrice || 0);
     setExclusive(product.exclusive || undefined);
-    setCategory(product.category || "");
     setStone(product.stone || "");
     setBadge(product.badge || "");
     setItems(product.insideBox?.length ? product.insideBox : [""]);
     setColour(product.colour?.length ? [...product.colour, ""] : [""]);
+
+    // ✅ Parse nested category
+    if (product.category) {
+      const parts = product.category.split(" > ");
+      if (parts.length === 2) {
+        setMainCategory(parts[0]);
+        setSubCategory(parts[1]);
+        setShowSubcategories(true);
+      } else {
+        setMainCategory(product.category);
+      }
+    }
 
     if (product.images?.length) {
       const serverImages = product.images.map((img: any) => ({
@@ -241,10 +276,12 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   };
 
   const handleCreate = async () => {
+    const finalCategory = getFinalCategory();
+    
     if (
       !title ||
       !description ||
-      !category ||
+      !mainCategory ||
       stock === undefined ||
       !price ||
       !oldPrice ||
@@ -275,7 +312,7 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
           exclusive: exclusive || undefined,
           colour: finalHexColours,
           video: null,
-          category,
+          category: finalCategory,
           stone: stone || undefined,
           badge: badge || undefined,
           status: "ACTIVE",
@@ -326,7 +363,7 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
           oldPrice,
           exclusive,
           colour: finalHexColours,
-          category,
+          category: finalCategory,
           stone,
           badge,
           status: "ACTIVE",
@@ -352,10 +389,12 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   };
 
   const handleUpdate = async () => {
+    const finalCategory = getFinalCategory();
+    
     if (
       !title ||
       !description ||
-      !category ||
+      !mainCategory ||
       stock === undefined ||
       !price ||
       !oldPrice ||
@@ -378,13 +417,11 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
         if (uploadedVideoUrl) videoUrl = uploadedVideoUrl;
       }
 
-      // Upload new images first
       let newImageUrls: string[] = [];
       if (newImages.length > 0) {
         newImageUrls = await uploadImages(id);
       }
 
-      // Combine existing and new image URLs
       const allImages = [...existingImages, ...newImageUrls];
 
       const payload = {
@@ -399,7 +436,7 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
         colour: finalHexColours,
         insideBox: items.filter((i) => i.trim() !== ""),
         video: videoUrl,
-        category,
+        category: finalCategory,
         stone,
         badge,
         status: "ACTIVE",
@@ -432,6 +469,14 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   const handleSubmit = async () => {
     if (isUpdateMode) await handleUpdate();
     else await handleCreate();
+  };
+
+  // ✅ Handle main category change
+  const handleMainCategoryChange = (value: string) => {
+    setMainCategory(value);
+    setSubCategory("");
+    const hasSubcategories = CATEGORY_STRUCTURE[value as keyof typeof CATEGORY_STRUCTURE]?.subcategories?.length > 0;
+    setShowSubcategories(hasSubcategories);
   };
 
   return (
@@ -483,24 +528,51 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
           />
         </div>
 
-        {/* Category */}
-        <div>
+        {/* ✅ Nested Category Selection */}
+        <div className="space-y-3">
           <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
             Category <span className="text-red-500">*</span>
           </label>
+          
+          {/* Main Category */}
           <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={mainCategory}
+            onChange={(e) => handleMainCategoryChange(e.target.value)}
             className="w-full p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
             disabled={loading}
           >
-            <option value="">Select Category</option>
-            {availableCategories.map((cat) => (
+            <option value="">Select Main Category</option>
+            {Object.keys(CATEGORY_STRUCTURE).map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
               </option>
             ))}
           </select>
+
+          {/* Sub Category (conditional) */}
+          {showSubcategories && mainCategory && (
+            <select
+              value={subCategory}
+              onChange={(e) => setSubCategory(e.target.value)}
+              className="w-full p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
+              disabled={loading}
+            >
+              <option value="">Select Subcategory (Optional)</option>
+              {CATEGORY_STRUCTURE[mainCategory as keyof typeof CATEGORY_STRUCTURE]?.subcategories.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {/* Display final category */}
+          {mainCategory && (
+            <div className="text-xs text-gray-500 mt-1">
+              <span className="font-medium">Final Category:</span>{" "}
+              <span className="text-amber-600">{getFinalCategory()}</span>
+            </div>
+          )}
         </div>
 
         {/* Stone/Material */}

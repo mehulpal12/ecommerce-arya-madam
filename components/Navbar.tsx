@@ -567,7 +567,7 @@ export default function Navbar() {
         <div
           ref={dropdownCrystalsRef}
           className="hidden md:block fixed top-[80px] left-1/2 -translate-x-1/2 
-          bg-white border rounded shadow-xl w-64 z-50 max-h-[500px] overflow-y-auto"
+          bg-white border rounded shadow-xl w-64 z-50 "
         >
           {crystalsCategories.map((cat) => (
             <div key={cat.slug} className="group relative">
@@ -580,10 +580,10 @@ export default function Navbar() {
                 {cat.submenu && <ChevronRight className="w-4 h-4" />}
               </Link>
 
-              {/* Nested submenu on hover */}
+              {/* Nested submenu on hover - positioned at top right */}
               {cat.submenu && (
                 <div className="hidden group-hover:block absolute left-full top-0 
-                bg-white border rounded shadow-xl w-64 ml-1 max-h-[400px] overflow-y-auto">
+                bg-white border rounded shadow-xl w-64 ml-1 max-h-[70vh] overflow-y-auto">
                   {cat.submenu.map((sub) => (
                     <Link
                       key={sub.slug}
