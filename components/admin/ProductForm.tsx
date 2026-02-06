@@ -208,7 +208,7 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
     setShowThirdCategories(false);
   };
 
-  // ✅ Handle sub category change
+  // ✅ Handle sub category change - FIXED TypeScript error
   const handleSubCategoryChange = (value: string) => {
     setSubCategory(value);
     setThirdCategory("");
@@ -216,8 +216,10 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
     if (mainCategory && value) {
       const subcats = CATEGORY_STRUCTURE[mainCategory as keyof typeof CATEGORY_STRUCTURE]?.subcategories;
       if (subcats && typeof subcats === 'object' && !Array.isArray(subcats)) {
-        const thirdLevelCategories = subcats[value as keyof typeof subcats];
+        const thirdLevelCategories = subcats[value as keyof typeof subcats] as string[] | undefined;
         setShowThirdCategories(Array.isArray(thirdLevelCategories) && thirdLevelCategories.length > 0);
+      } else {
+        setShowThirdCategories(false);
       }
     } else {
       setShowThirdCategories(false);
