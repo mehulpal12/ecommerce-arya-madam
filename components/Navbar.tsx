@@ -24,6 +24,11 @@ export default function Navbar() {
   const [desktopCrystalsOpen, setDesktopCrystalsOpen] = useState(false);
   const [desktopRemediesOpen, setDesktopRemediesOpen] = useState(false);
 
+  // Mobile submenu states
+  const [mobileCreativeOpen, setMobileCreativeOpen] = useState(false);
+  const [mobileCrystalsOpen, setMobileCrystalsOpen] = useState(false);
+  const [mobileRemediesOpen, setMobileRemediesOpen] = useState(false);
+
   const [query, setQuery] = useState("");
 
   const creativeBtnRef = useRef<HTMLButtonElement>(null);
@@ -350,13 +355,177 @@ export default function Navbar() {
             </button>
 
             <button
-              className="md:hidden"
+              className="md:hidden text-black"
               onClick={() => setMenuOpen((p) => !p)}
             >
               {menuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </nav>
+
+        {/* ---------------- MOBILE MENU ---------------- */}
+        {menuOpen && (
+          <div className="md:hidden bg-white border-t max-h-[80vh] overflow-y-auto">
+            <div className="px-6 py-4 space-y-3">
+              <Link
+                href="/"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                href="/shop"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Shop
+              </Link>
+              <Link
+                href="/collections"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Collections
+              </Link>
+
+              {/* Mobile Creative */}
+              <div>
+                <button
+                  onClick={() => setMobileCreativeOpen((p) => !p)}
+                  className="w-full flex items-center justify-between py-2 text-black"
+                >
+                  <span>Creative & Handcrafted</span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      mobileCreativeOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileCreativeOpen && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {creativeCategories.map((cat) => (
+                      <div key={cat.slug}>
+                        <Link
+                          href={`/${cat.slug}`}
+                          className="block py-1 text-sm text-black hover:text-[#e6cfa7]"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {cat.label}
+                        </Link>
+                        {cat.submenu && (
+                          <div className="ml-4 mt-1 space-y-1">
+                            {cat.submenu.map((sub) => (
+                              <Link
+                                key={sub.slug}
+                                href={`/${sub.slug}`}
+                                className="block py-1 text-xs text-black hover:text-[#e6cfa7]"
+                                onClick={() => setMenuOpen(false)}
+                              >
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Crystals */}
+              <div>
+                <button
+                  onClick={() => setMobileCrystalsOpen((p) => !p)}
+                  className="w-full flex items-center justify-between py-2 text-black"
+                >
+                  <span>Crystals & Spiritual</span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      mobileCrystalsOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileCrystalsOpen && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {crystalsCategories.map((cat) => (
+                      <div key={cat.slug}>
+                        <Link
+                          href={`/${cat.slug}`}
+                          className="block py-1 text-sm text-black hover:text-[#e6cfa7]"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {cat.label}
+                        </Link>
+                        {cat.submenu && (
+                          <div className="ml-4 mt-1 space-y-1">
+                            {cat.submenu.map((sub) => (
+                              <Link
+                                key={sub.slug}
+                                href={`/${sub.slug}`}
+                                className="block py-1 text-xs text-black hover:text-[#e6cfa7]"
+                                onClick={() => setMenuOpen(false)}
+                              >
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Remedies */}
+              <div>
+                <button
+                  onClick={() => setMobileRemediesOpen((p) => !p)}
+                  className="w-full flex items-center justify-between py-2 text-black"
+                >
+                  <span>Remedies</span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      mobileRemediesOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileRemediesOpen && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {remediesCategories.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/${item.slug}`}
+                        className="block py-1 text-sm text-black hover:text-[#e6cfa7]"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <Link
+                href="/about"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
