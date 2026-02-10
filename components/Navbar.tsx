@@ -36,51 +36,11 @@ export default function Navbar() {
 
   const [query, setQuery] = useState("");
 
-  const creativeBtnRef = useRef<HTMLButtonElement>(null);
-  const crystalsBtnRef = useRef<HTMLButtonElement>(null);
-  const remediesBtnRef = useRef<HTMLButtonElement>(null);
-
-  const creativeDropRef = useRef<HTMLDivElement>(null);
-  const crystalsDropRef = useRef<HTMLDivElement>(null);
-  const remediesDropRef = useRef<HTMLDivElement>(null);
-
   const { items } = useCart();
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
 
   const pathname = usePathname();
   const router = useRouter();
-
-  /* ---------------- OUTSIDE CLICK ---------------- */
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (
-        creativeDropRef.current &&
-        !creativeDropRef.current.contains(e.target as Node) &&
-        !creativeBtnRef.current?.contains(e.target as Node)
-      ) {
-        setDesktopCreativeOpen(false);
-      }
-
-      if (
-        crystalsDropRef.current &&
-        !crystalsDropRef.current.contains(e.target as Node) &&
-        !crystalsBtnRef.current?.contains(e.target as Node)
-      ) {
-        setDesktopCrystalsOpen(false);
-      }
-
-      if (
-        remediesDropRef.current &&
-        !remediesDropRef.current.contains(e.target as Node) &&
-        !remediesBtnRef.current?.contains(e.target as Node)
-      ) {
-        setDesktopRemediesOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
 
   /* ---------------- NAV HANDLER ---------------- */
   const handleNavClick = (
@@ -203,21 +163,18 @@ export default function Navbar() {
             <Link href="/shop">Shop</Link>
             <Link href="/collections">Collections</Link>
 
-            {/* Creative */}
-            <div className="relative">
-              <button
-                ref={creativeBtnRef}
-                onClick={() => setDesktopCreativeOpen((p) => !p)}
-                className="flex items-center gap-1"
-              >
+            {/* Creative - HOVER with container */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setDesktopCreativeOpen(true)}
+              onMouseLeave={() => setDesktopCreativeOpen(false)}
+            >
+              <button className="flex items-center gap-1">
                 Creative & Handcrafted <ChevronDown size={16} />
               </button>
 
               {desktopCreativeOpen && (
-                <div
-                  ref={creativeDropRef}
-                  className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[260px] z-50"
-                >
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[260px] z-50">
                   {creativeCategories.map((cat) => (
                     <div key={cat.slug} className="group relative">
                       <Link
@@ -229,7 +186,7 @@ export default function Navbar() {
                       </Link>
 
                       {cat.submenu && (
-                        <div className="hidden group-hover:block absolute left-full top-1/2 -translate-y-1/2 ml-1 bg-white border rounded shadow-xl min-w-[220px] z-50">
+                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[220px] z-50">
                           {cat.submenu.map((sub) => (
                             <Link
                               key={sub.slug}
@@ -247,21 +204,18 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Crystals */}
-            <div className="relative">
-              <button
-                ref={crystalsBtnRef}
-                onClick={() => setDesktopCrystalsOpen((p) => !p)}
-                className="flex items-center gap-1"
-              >
+            {/* Crystals - HOVER with container */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setDesktopCrystalsOpen(true)}
+              onMouseLeave={() => setDesktopCrystalsOpen(false)}
+            >
+              <button className="flex items-center gap-1">
                 Crystals & Spiritual <ChevronDown size={16} />
               </button>
 
               {desktopCrystalsOpen && (
-                <div
-                  ref={crystalsDropRef}
-                  className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[320px] z-50"
-                >
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[320px] z-50">
                   {crystalsCategories.map((cat) => (
                     <div key={cat.slug} className="group relative">
                       <Link
@@ -273,7 +227,7 @@ export default function Navbar() {
                       </Link>
 
                       {cat.submenu && (
-                        <div className="hidden group-hover:block absolute left-full top-1/2 -translate-y-1/2 ml-1 bg-white border rounded shadow-xl min-w-[240px] z-50">
+                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[280px] max-h-[400px] overflow-y-auto z-50">
                           {cat.submenu.map((sub) => (
                             <Link
                               key={sub.slug}
@@ -291,21 +245,18 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Remedies */}
-            <div className="relative">
-              <button
-                ref={remediesBtnRef}
-                onClick={() => setDesktopRemediesOpen((p) => !p)}
-                className="flex items-center gap-1"
-              >
+            {/* Remedies - HOVER with container */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setDesktopRemediesOpen(true)}
+              onMouseLeave={() => setDesktopRemediesOpen(false)}
+            >
+              <button className="flex items-center gap-1">
                 Remedies <ChevronDown size={16} />
               </button>
 
               {desktopRemediesOpen && (
-                <div
-                  ref={remediesDropRef}
-                  className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[220px] max-h-[500px] overflow-y-auto z-50"
-                >
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[220px] max-h-[500px] overflow-y-auto z-50">
                   {remediesCategories.map((item) => (
                     <Link
                       key={item.slug}

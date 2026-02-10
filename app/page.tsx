@@ -9,6 +9,7 @@ import BestSellers from "@/components/BestSellers";
 import HomePopup from "@/components/HomePopup";
 import JoinComm from "@/components/JoinCommunity";
 import WhatsAppFloating from "@/components/FloatingWhatsApp";
+import ReviewsFloating from "@/components/ReviewsFloating";
 
 export default function HomePage() {
   return (
@@ -24,8 +25,9 @@ export default function HomePage() {
       <JoinComm />
       <Footer />
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating Buttons */}
       <WhatsAppFloating />
+      <ReviewsFloating />
     </main>
   );
 }

@@ -29,10 +29,10 @@ interface Product {
 }
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  // const [selectedCategory, setSelectedCategory] = useState('All');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState<string[]>(['All']);
+  // const [categories, setCategories] = useState<string[]>(['All']);
 
   const { addToCart, increaseQty, decreaseQty, items: cartItems } = useCart();
   const searchParams = useSearchParams();
@@ -45,9 +45,9 @@ export default function ProductsPage() {
       try {
         const params = new URLSearchParams();
         
-        if (selectedCategory !== 'All') {
-          params.append('category', selectedCategory);
-        }
+        // if (selectedCategory !== 'All') {
+        //   params.append('category', selectedCategory);
+        // }
         
         if (query) {
           params.append('search', query);
@@ -67,8 +67,8 @@ export default function ProductsPage() {
         setProducts(data);
 
         // Extract unique categories from products
-        const uniqueCategories = ['All', ...new Set(data.map((p: Product) => p.category))];
-        setCategories(uniqueCategories as string[]);
+        // const uniqueCategories = ['All', ...new Set(data.map((p: Product) => p.category))];
+        // setCategories(uniqueCategories as string[]);
       } catch (error) {
         console.error('❌ Error fetching products:', error);
         setProducts([]);
@@ -78,7 +78,7 @@ export default function ProductsPage() {
     };
 
     fetchProducts();
-  }, [selectedCategory, query]);
+  }, [query]); // removed selectedCategory dependency
 
   const cartItemById = (id: string) =>
     cartItems.find((item) => item.id === id);
@@ -102,10 +102,10 @@ export default function ProductsPage() {
           )}
         </div>
 
+        {/* REMOVED SIDEBAR - Categories Filter Commented Out */}
+        {/* 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          {/* SIDEBAR */}
           <aside className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-6 rounded-2xl space-y-8 shadow-sm h-fit">
-            {/* CATEGORY */}
             <div>
               <h3 className="text-lg font-bold mb-4 text-[rgb(44_95_124)]">
                 Categories
@@ -128,9 +128,10 @@ export default function ProductsPage() {
               </div>
             </div>
           </aside>
+        */}
 
-          {/* PRODUCTS */}
-          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* PRODUCTS - Full Width Now */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {loading ? (
               <div className="col-span-full text-center py-12">
                 <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-[#e6cfa7] border-r-transparent"></div>
@@ -139,7 +140,7 @@ export default function ProductsPage() {
             ) : products.length === 0 ? (
               <div className="col-span-full text-center py-12">
                 <p className="text-xl text-gray-600">No products found 😕</p>
-                <p className="text-sm text-gray-500 mt-2">Try adjusting your filters</p>
+                <p className="text-sm text-gray-500 mt-2">Try adjusting your search</p>
               </div>
             ) : (
               products.map((p) => {
@@ -159,7 +160,7 @@ export default function ProductsPage() {
                             src={p.images[0]}
                             alt={p.title}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             priority={false}
                             onError={(e) => {
@@ -277,7 +278,7 @@ export default function ProductsPage() {
               })
             )}
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </section>
   );
