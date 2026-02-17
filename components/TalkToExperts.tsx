@@ -1,10 +1,70 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { MessageCircle, PhoneCall, Mail, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ExpertsPage() {
+
+    const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "Select a subject",
+      message: "",
+    });
+
+
+   const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (formData.subject === "Select a subject") {
+      alert("❌ Please select a subject");
+      return;
+    }
+
+    // WhatsApp message format karo
+    const whatsappNumber = "919306662709"; // +91 ko 91 kar diya (country code)
+    
+    let whatsappMessage = `*New Contact Form Message*\n\n`;
+    whatsappMessage += `*Name:* ${formData.name}\n`;
+    whatsappMessage += `*Email:* ${formData.email}\n`;
+    
+    if (formData.phone) {
+      whatsappMessage += `*Phone:* ${formData.phone}\n`;
+    }
+    
+    whatsappMessage += `*Subject:* ${formData.subject}\n\n`;
+    whatsappMessage += `*Message:*\n${formData.message}`;
+
+    // URL encode karo message ko
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // WhatsApp URL banao
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // WhatsApp pe redirect karo
+    window.open(whatsappURL, '_blank');
+
+    // Form reset karo
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "Select a subject",
+      message: "",
+    });
+  };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+
+  
   return (
     <div className="bg-[#fdfaf6] min-h-screen text-black">
       
@@ -16,7 +76,7 @@ export default function ExpertsPage() {
         className="py-24 px-6 text-center bg-gradient-to-br from-[#fdfaf6] via-[#f3efe6] to-[#e6dbc8]/40"
       >
         <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Talk to Our Experts
+          Contact Us
         </h1>
         <p className="text-xl max-w-3xl mx-auto">
           Get personalized guidance for crystals, vastu, remedies, sage,
@@ -55,8 +115,10 @@ export default function ExpertsPage() {
               Chat directly with our spiritual experts for quick guidance
             </p>
             <a
-              href="https://wa.me/91XXXXXXXXXX"
-              target="_blank"
+              href="https://wa.me/919306662709" // apna number yahan daalo
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
               className="inline-block px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
             >
               Chat on WhatsApp
@@ -79,7 +141,7 @@ export default function ExpertsPage() {
               Speak directly for in-depth spiritual & vastu consultation
             </p>
             <a
-              href="tel:+91XXXXXXXXXX"
+              href="tel:+919306662709"
               className="inline-block px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
             >
               Call Now
@@ -127,44 +189,66 @@ export default function ExpertsPage() {
             </h2>
           </div>
 
-          <form className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
             <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full px-4 py-3 border rounded"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter Your Full Name *"
               required
+              className="w-full border-2 border-black rounded-md px-4 py-3 text-black"
             />
 
             <input
-              type="tel"
-              placeholder="Phone Number"
-              className="w-full px-4 py-3 border rounded"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email Address *"
               required
+              className="w-full border-2 border-black rounded-md px-4 py-3 text-black"
+            />
+
+            <input
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone Number"
+              className="w-full border-2 border-black rounded-md px-4 py-3 text-black"
             />
 
             <select
-              className="w-full px-4 py-3 border rounded"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
               required
+              className="w-full border-2 border-black rounded-md px-4 py-3 text-black"
             >
-              <option value="">Select Consultation Type</option>
-              <option>Crystals & Healing</option>
-              <option>Vastu & Yantra</option>
-              <option>Remedies</option>
-              <option>Sage & Cleansing</option>
-              <option>Handcrafted / Gift Items</option>
+              <option>Select a subject</option>
+              <option>Orders</option>
+              <option>Products</option>
+              <option>Support</option>
             </select>
 
             <textarea
-              placeholder="Your Message"
-              rows={4}
-              className="w-full px-4 py-3 border rounded"
+              name="message"
+              rows={5}
+              maxLength={500}
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Your message..."
+              required
+              className="w-full border-2 border-black rounded-md px-4 py-3 resize-none text-black"
             />
 
             <button
               type="submit"
-              className="w-full py-4 bg-[rgb(44_95_124)] text-white rounded-xl hover:shadow-[0_0_20px_rgba(44,95,124,0.3)] transition"
+              className="w-full bg-[rgb(44_95_124)] text-white py-3 rounded-md font-semibold hover:bg-[rgb(54_105_134)] transition-colors flex items-center justify-center gap-2"
             >
-              Submit Request
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+              Send via WhatsApp
             </button>
           </form>
         </motion.div>
