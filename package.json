@@ -1,5 +1,8 @@
 {
   "name": "aryamadam",
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "version": "0.1.0",
   "private": true,
   "scripts": {
