@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+   experimental: {
+    serverActions: {
+      runtime: "nodejs",
+    },
+  },
   images: {
     remotePatterns: [
       {
