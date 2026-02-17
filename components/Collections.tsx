@@ -65,7 +65,7 @@ export default function CollectionsPage() {
         <CurtainReveal>
           <div className="text-center mb-20">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Our Collections
+              Vintage Collections
             </h1>
             <p className="max-w-3xl mx-auto text-lg opacity-90">
               Discover curated collections of premium craft supplies.

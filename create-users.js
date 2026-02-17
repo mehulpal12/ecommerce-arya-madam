@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 // Initialize Prisma with proper configuration for v7
 const prisma = new PrismaClient({
   log: ['error', 'warn'],
-});
+}); 
 
 async function main() {
   console.log('🌱 Creating users...\n');

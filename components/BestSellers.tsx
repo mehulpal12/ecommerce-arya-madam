@@ -138,7 +138,7 @@ export default function BestSellers() {
                     {product.images && product.images.length > 0 ? (
                       <Image
                         src={product.images[0]}
-                        alt={product.name}
+                        alt="product-img"
                         fill
                         className="object-cover hover:scale-105 transition"
                       />

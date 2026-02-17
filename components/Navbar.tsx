@@ -160,6 +160,7 @@ export default function Navbar() {
             >
               Home
             </Link>
+           <Link href="/about">About</Link>
             <Link href="/shop">Shop</Link>
             <Link href="/collections">Collections</Link>
 
@@ -167,14 +168,14 @@ export default function Navbar() {
             <div 
               className="relative"
               onMouseEnter={() => setDesktopCreativeOpen(true)}
-              onMouseLeave={() => setDesktopCreativeOpen(false)}
+            
             >
               <button className="flex items-center gap-1">
                 Creative & Handcrafted <ChevronDown size={16} />
               </button>
 
               {desktopCreativeOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[260px] z-50">
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[260px] z-50"   onMouseLeave={() => setDesktopCreativeOpen(false)}>
                   {creativeCategories.map((cat) => (
                     <div key={cat.slug} className="group relative">
                       <Link
@@ -208,14 +209,16 @@ export default function Navbar() {
             <div 
               className="relative"
               onMouseEnter={() => setDesktopCrystalsOpen(true)}
-              onMouseLeave={() => setDesktopCrystalsOpen(false)}
             >
               <button className="flex items-center gap-1">
                 Crystals & Spiritual <ChevronDown size={16} />
               </button>
 
               {desktopCrystalsOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[320px] z-50">
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[320px] z-50" 
+              onMouseLeave={() => setDesktopCrystalsOpen(false)}
+                
+                >
                   {crystalsCategories.map((cat) => (
                     <div key={cat.slug} className="group relative">
                       <Link
@@ -227,7 +230,9 @@ export default function Navbar() {
                       </Link>
 
                       {cat.submenu && (
-                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[280px] max-h-[400px] overflow-y-auto z-50">
+                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[280px] max-h-[400px] overflow-y-auto z-50" 
+                        
+                        >
                           {cat.submenu.map((sub) => (
                             <Link
                               key={sub.slug}
@@ -249,14 +254,16 @@ export default function Navbar() {
             <div 
               className="relative"
               onMouseEnter={() => setDesktopRemediesOpen(true)}
-              onMouseLeave={() => setDesktopRemediesOpen(false)}
             >
               <button className="flex items-center gap-1">
                 Remedies <ChevronDown size={16} />
               </button>
 
               {desktopRemediesOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[220px] max-h-[500px] overflow-y-auto z-50">
+                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[220px] max-h-[500px] overflow-y-auto z-50"
+              onMouseLeave={() => setDesktopRemediesOpen(false)}
+                
+                >
                   {remediesCategories.map((item) => (
                     <Link
                       key={item.slug}
@@ -270,9 +277,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href="/experts">Talk to our experts</Link>
-            <Link href="/about">About</Link>
-            <Link href="/contact">Contact</Link>
+            <Link href="/experts">Contact as</Link>
           </div>
 
           {/* ---------------- RIGHT ICONS ---------------- */}
@@ -325,6 +330,8 @@ export default function Navbar() {
               >
                 Home
               </Link>
+           <Link href="/about">About</Link>
+              
               <Link
                 href="/shop"
                 className="block py-2 text-black hover:text-[#e6cfa7]"
@@ -501,13 +508,7 @@ export default function Navbar() {
                 )}
               </div>
 
-              <Link
-                href="/experts"
-                className="block py-2 text-black hover:text-[#e6cfa7]"
-                onClick={() => setMenuOpen(false)}
-              >
-                Talk to our experts
-              </Link>
+              
               <Link
                 href="/about"
                 className="block py-2 text-black hover:text-[#e6cfa7]"
@@ -516,11 +517,11 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href="/contact"
+                href="/experts"
                 className="block py-2 text-black hover:text-[#e6cfa7]"
                 onClick={() => setMenuOpen(false)}
               >
-                Contact
+                Contact as
               </Link>
             </div>
           </div>
